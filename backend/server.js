@@ -219,9 +219,10 @@ app.post('/api/query/execute', async (req, res) => {
   try {
     const connection = await pools[node].getConnection();
     
-    // Set isolation level
+    // Set isolation level (normalize values like READ_COMMITTED -> READ COMMITTED)
     if (isolationLevel) {
-      await connection.query(`SET SESSION TRANSACTION ISOLATION LEVEL ${isolationLevel}`);
+      const iso = String(isolationLevel).replace(/_/g, ' ');
+      await connection.query(`SET SESSION TRANSACTION ISOLATION LEVEL ${iso}`);
     }
 
     const [results] = await connection.query(query);

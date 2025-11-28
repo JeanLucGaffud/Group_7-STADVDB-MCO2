@@ -123,7 +123,7 @@
 
         <div class="section-card">
           <h2>🧪 Test Cases</h2>
-          <button onclick="runTestCase('case1')" class="btn-full info">Case 1: Concurrent Reads</button>
+          <button onclick="openCase1Modal()" class="btn-full info">Case 1: Concurrent Reads</button>
           <button onclick="runTestCase('case2')" class="btn-full info">Case 2: Write + Reads</button>
           <button onclick="runTestCase('case3')" class="btn-full info">Case 3: Concurrent Writes</button>
           <button onclick="runTestCase('failure1')" class="btn-full warning">Failure 1: Replication Fail</button>
@@ -141,10 +141,50 @@
         <div id="dataTable" class="data-table"></div>
       </div>
     </div>
+
+    <!-- Case 1 Modal -->
+    <div id="case1Modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeCase1Modal()">&times;</span>
+        <h2>Case 1: Concurrent Reads</h2>
+        <div class="form-group">
+          <label>Node A</label>
+          <select id="case1NodeA">
+            <option value="node0">Node 0 (Master)</option>
+            <option value="node1">Node 1 (Fragment A)</option>
+            <option value="node2">Node 2 (Fragment B)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Node B</label>
+          <select id="case1NodeB">
+            <option value="node0">Node 0 (Master)</option>
+            <option value="node1">Node 1 (Fragment A)</option>
+            <option value="node2">Node 2 (Fragment B)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Record ID</label>
+          <input id="case1RecordId" type="number" placeholder="e.g. 1" />
+        </div>
+        <div class="form-group">
+          <label>Isolation Level</label>
+          <select id="case1Isolation">
+            <option value="READ_UNCOMMITTED">Read Uncommitted</option>
+            <option value="READ_COMMITTED" selected>Read Committed</option>
+            <option value="REPEATABLE_READ">Repeatable Read</option>
+            <option value="SERIALIZABLE">Serializable</option>
+          </select>
+        </div>
+        <button onclick="runCase1()" class="btn-full primary">Run Concurrent Reads</button>
+        <div id="case1Output" class="logs-container" style="margin-top:10px;"></div>
+      </div>
+    </div>
   </div>
 
   <script type="module">
     import * as app from './src/app.js';
+    import { case1ConcurrentReads, retryReplication } from './src/test-cases.js';
     
     // Make app functions globally accessible
     window.app = app;
@@ -185,12 +225,36 @@
       }
     };
 
-    window.retryReplication = function() {
-      alert('Retry Replication functionality will be implemented in the next phase');
-    };
+    window.retryReplication = function() { retryReplication(); };
 
-    window.runTestCase = function(caseId) {
-      alert(`Test case ${caseId} will be implemented in the next phase`);
+    // Case 1 Modal controls
+    window.openCase1Modal = function(){
+      document.getElementById('case1Modal').style.display = 'block';
+    };
+    window.closeCase1Modal = function(){
+      document.getElementById('case1Modal').style.display = 'none';
+    };
+    window.runCase1 = async function(){
+      const nodeA = document.getElementById('case1NodeA').value;
+      const nodeB = document.getElementById('case1NodeB').value;
+      const recordId = document.getElementById('case1RecordId').value;
+      const isolation = document.getElementById('case1Isolation').value;
+      const out = document.getElementById('case1Output');
+      out.innerHTML = '<div class="log-entry">Running...</div>';
+      const res = await case1ConcurrentReads(nodeA, nodeB, recordId, isolation);
+      const details = `RowsA: ${res.results?.rowsA} | RowsB: ${res.results?.rowsB} | Same: ${res.results?.same ? 'YES' : 'NO'}`;
+      const dataAJson = JSON.stringify(res.results?.dataA || [], null, 2);
+      const dataBJson = JSON.stringify(res.results?.dataB || [], null, 2);
+      out.innerHTML = `
+        <div class="log-entry success">Isolation: ${isolation.replace('_',' ')}</div>
+        <div class="log-entry success">Query: ${res.query}</div>
+        <div class="log-entry success">NodeA: ${res.results?.nodeA} | NodeB: ${res.results?.nodeB}</div>
+        <div class="log-entry">${details}</div>
+        <div class="log-entry"><strong>Node A Data</strong></div>
+        <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:200px;">${dataAJson}</pre>
+        <div class="log-entry"><strong>Node B Data</strong></div>
+        <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:200px;">${dataBJson}</pre>
+      `;
     };
 
     window.showDataModal = function(node, data) {

@@ -288,3 +288,14 @@ function showSuccessMessage(message) {
 }
 
 export { showErrorMessage, showSuccessMessage };
+
+// --- Simple Case 1 helpers (concurrent reads) ---
+export async function runConcurrentReads(nodeA, nodeB, recordId, isolationLevel) {
+  const id = Number(recordId);
+  const query = `SELECT * FROM trans WHERE trans_id = ${id}`;
+  const level = isolationLevel || 'READ_COMMITTED';
+  const a = executeQuery(nodeA, query, level);
+  const b = executeQuery(nodeB, query, level);
+  const [ra, rb] = await Promise.allSettled([a, b]);
+  return { ra, rb, query, isolationLevel: level };
+}
