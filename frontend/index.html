@@ -125,7 +125,7 @@
           <h2>🧪 Test Cases</h2>
           <button onclick="openCase1Modal()" class="btn-full info">Case 1: Concurrent Reads</button>
           <button onclick="openCase2Modal()" class="btn-full info">Case 2: Write + Reads</button>
-          <button onclick="runTestCase('case3')" class="btn-full info">Case 3: Concurrent Writes</button>
+          <button onclick="openCase3Modal()" class="btn-full info">Case 3: Concurrent Writes</button>
           <button onclick="runTestCase('failure1')" class="btn-full warning">Failure 1: Replication Fail</button>
           <button onclick="runTestCase('failure2')" class="btn-full warning">Failure 2: Node0 Recovery</button>
         </div>
@@ -230,11 +230,66 @@
         <div id="case2Output" class="logs-container" style="margin-top:10px;"></div>
       </div>
     </div>
+    <!-- Case 3 Modal -->
+    <div id="case3Modal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeCase3Modal()">&times;</span>
+        <h2>Case 3: Concurrent Writes (Same Record)</h2>
+        <div class="form-group">
+          <label>Writer Node A</label>
+          <select id="case3NodeA">
+            <option value="node0">Node 0 (Master)</option>
+            <option value="node1">Node 1 (Fragment A)</option>
+            <option value="node2">Node 2 (Fragment B)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Writer Node B</label>
+          <select id="case3NodeB">
+            <option value="node0">Node 0 (Master)</option>
+            <option value="node1">Node 1 (Fragment A)</option>
+            <option value="node2">Node 2 (Fragment B)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Record ID</label>
+          <input id="case3RecordId" type="number" placeholder="e.g. 1" />
+        </div>
+        <div class="form-group">
+          <label>Amount Value A</label>
+          <input id="case3ValueA" type="number" placeholder="e.g. 800" />
+        </div>
+        <div class="form-group">
+          <label>Amount Value B</label>
+          <input id="case3ValueB" type="number" placeholder="e.g. 1200" />
+        </div>
+        <div class="form-group">
+          <label>Isolation Level A</label>
+          <select id="case3IsoA">
+            <option value="READ_UNCOMMITTED">Read Uncommitted</option>
+            <option value="READ_COMMITTED" selected>Read Committed</option>
+            <option value="REPEATABLE_READ">Repeatable Read</option>
+            <option value="SERIALIZABLE">Serializable</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Isolation Level B</label>
+          <select id="case3IsoB">
+            <option value="READ_UNCOMMITTED">Read Uncommitted</option>
+            <option value="READ_COMMITTED" selected>Read Committed</option>
+            <option value="REPEATABLE_READ">Repeatable Read</option>
+            <option value="SERIALIZABLE">Serializable</option>
+          </select>
+        </div>
+        <button onclick="runCase3()" class="btn-full primary">Run Concurrent Writes</button>
+        <div id="case3Output" class="logs-container" style="margin-top:10px;"></div>
+      </div>
+    </div>
   </div>
 
   <script type="module">
     import * as app from './src/app.js';
-    import { case1ConcurrentReads, case2WritePlusReads, retryReplication } from './src/test-cases.js';
+    import { case1ConcurrentReads, case2WritePlusReads, case3ConcurrentWrites, retryReplication } from './src/test-cases.js';
     
     // Make app functions globally accessible
     window.app = app;
@@ -349,6 +404,52 @@
           <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:150px;">${dataA}</pre>
           <div class="log-entry"><strong>Reader B Data</strong></div>
           <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:150px;">${dataB}</pre>
+        `;
+      } catch (e) {
+        out.innerHTML = `<div class=\"log-entry\">Error: ${e.message}</div>`;
+      }
+    };
+    // Case 3 controls
+    window.openCase3Modal = function(){
+      document.getElementById('case3Modal').style.display = 'block';
+    };
+    window.closeCase3Modal = function(){
+      document.getElementById('case3Modal').style.display = 'none';
+    };
+    window.runCase3 = async function(){
+      const nodeA = document.getElementById('case3NodeA').value;
+      const nodeB = document.getElementById('case3NodeB').value;
+      const recordId = document.getElementById('case3RecordId').value;
+      const valueA = document.getElementById('case3ValueA').value;
+      const valueB = document.getElementById('case3ValueB').value;
+      const isoA = document.getElementById('case3IsoA').value;
+      const isoB = document.getElementById('case3IsoB').value;
+      const out = document.getElementById('case3Output');
+      out.innerHTML = '<div class="log-entry">Running concurrent writes...</div>';
+      try {
+        const res = await case3ConcurrentWrites(nodeA, nodeB, recordId, valueA, valueB, isoA, isoB);
+        const writeLines = res.writes.map(w => `Node: ${w.node} | Status: ${w.status}${w.code ? ' ('+w.code+')' : ''} | ValueSet: ${w.valueSet}${w.error ? ' | Error: '+w.error : ''}`).join('\n');
+        const replicationLines = res.writes.map(w => w.replication && w.replication.length ? w.replication.map(r => `  -> Replicate to ${r.target}: ${r.status}${r.error ? ' | '+r.error : ''}`).join('\n') : '  -> No replication').join('\n');
+        const orderLine = res.order.map(o => o.node).join(' -> ') || 'Unknown';
+        const finalMaster = JSON.stringify(res.finalReads.node0 || [], null, 2);
+        const finalA = JSON.stringify(res.finalReads[nodeA] || [], null, 2);
+        const finalB = JSON.stringify(res.finalReads[nodeB] || [], null, 2);
+        const lockFailures = res.writes.filter(w => w.status === 'failed' && w.code === 423);
+        out.innerHTML = `
+          <div class="log-entry success">Record ID: ${res.recordId}</div>
+          <div class="log-entry">Isolation A: ${isoA.replace('_',' ')} | Isolation B: ${isoB.replace('_',' ')}</div>
+          <div class="log-entry">Write Ordering (endTime ascending): ${orderLine}</div>
+          <div class="log-entry">Conflict Classification: ${res.conflictType}</div>
+          <div class="log-entry">Divergence Across Nodes: ${res.divergence ? 'YES' : 'NO'}</div>
+          ${lockFailures.length ? `<div class=\"log-entry warning\"><strong>Lock Enforcement:</strong> ${lockFailures.map(w => `${w.node} blocked: ${w.error}`).join(', ')}</div>` : ''}
+          <div class="log-entry"><strong>Writes</strong></div>
+          <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:120px;">${writeLines}\n${replicationLines}</pre>
+          <div class="log-entry"><strong>Final Master (node0) Row</strong></div>
+          <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:140px;">${finalMaster}</pre>
+          <div class="log-entry"><strong>Final Node A (${nodeA}) Row</strong></div>
+          <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:140px;">${finalA}</pre>
+          <div class="log-entry"><strong>Final Node B (${nodeB}) Row</strong></div>
+          <pre class="log-entry" style="white-space:pre-wrap;overflow:auto;max-height:140px;">${finalB}</pre>
         `;
       } catch (e) {
         out.innerHTML = `<div class=\"log-entry\">Error: ${e.message}</div>`;

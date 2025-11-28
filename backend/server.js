@@ -76,6 +76,41 @@ let replicationQueue = [];
 // Transaction Log
 let transactionLog = [];
 
+// In-memory Distributed Lock Manager (per trans_id)
+// Map: trans_id -> { ownerNode, acquiredAt }
+const locks = new Map();
+
+function parseTransId(query) {
+  const m = /WHERE\s+trans_id\s*=\s*(\d+)/i.exec(query || '');
+  return m ? parseInt(m[1], 10) : null;
+}
+
+function isWriteQuery(query) {
+  const upper = String(query || '').trim().toUpperCase();
+  return upper.startsWith('UPDATE') || upper.startsWith('INSERT') || upper.startsWith('DELETE');
+}
+
+function acquireLock(transId, ownerNode) {
+  if (transId == null) return { ok: true };
+  const existing = locks.get(transId);
+  if (!existing) {
+    locks.set(transId, { ownerNode, acquiredAt: new Date() });
+    return { ok: true };
+  }
+  if (existing.ownerNode === ownerNode) {
+    return { ok: true };
+  }
+  return { ok: false, error: `Record ${transId} locked by ${existing.ownerNode}` };
+}
+
+function releaseLock(transId, ownerNode) {
+  if (transId == null) return;
+  const existing = locks.get(transId);
+  if (existing && existing.ownerNode === ownerNode) {
+    locks.delete(transId);
+  }
+}
+
 // Simple write replication utility (eager, same query forwarded to other nodes)
 async function replicateWrite(sourceNode, query, isolationLevel) {
   const upper = query.trim().toUpperCase();
@@ -300,6 +335,20 @@ app.post('/api/query/execute', async (req, res) => {
   };
 
   try {
+    // Acquire per-record lock for writes
+    const isWrite = isWriteQuery(query);
+    const lockTransId = isWrite ? parseTransId(query) : null;
+    if (isWrite) {
+      const lock = acquireLock(lockTransId, node);
+      if (!lock.ok) {
+        logEntry.status = 'failed';
+        logEntry.endTime = new Date();
+        logEntry.error = lock.error;
+        transactionLog.push(logEntry);
+        return res.status(423).json({ transactionId, error: lock.error, logEntry });
+      }
+    }
+
     const connection = await pools[node].getConnection();
     
     // Set isolation level (normalize values like READ_COMMITTED -> READ COMMITTED)
@@ -318,6 +367,11 @@ app.post('/api/query/execute', async (req, res) => {
     const replicationResults = await replicateWrite(node, query, isolationLevel);
     logEntry.replication = replicationResults.map(r => ({ target: r.target, status: r.status }));
 
+    // Release lock after commit & replication attempt
+    if (isWrite) {
+      releaseLock(lockTransId, node);
+    }
+
     transactionLog.push(logEntry);
 
     res.json({
@@ -330,6 +384,9 @@ app.post('/api/query/execute', async (req, res) => {
     logEntry.status = 'failed';
     logEntry.endTime = new Date();
     logEntry.error = error.message;
+    // Ensure lock release on error
+    const lockTransId = parseTransId(query);
+    releaseLock(lockTransId, node);
     
     transactionLog.push(logEntry);
 
