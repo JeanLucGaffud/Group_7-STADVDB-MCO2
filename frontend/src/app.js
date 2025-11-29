@@ -144,7 +144,19 @@ export async function executeQueryAction(query) {
     await refreshTransactionLogs();
     updateUI();
     
-    showSuccessMessage('Query executed successfully');
+    // Check if it's a write operation and show detailed results
+    const isWrite = /^\s*(UPDATE|INSERT|DELETE)/i.test(query);
+    
+    if (isWrite && response.data && response.data.results && typeof response.data.results.affectedRows !== 'undefined') {
+      const affectedRows = response.data.results.affectedRows;
+      if (affectedRows === 0) {
+        showErrorMessage(`Query executed but no rows were affected (0 rows matched the WHERE condition)`);
+      } else {
+        showSuccessMessage(`Query executed successfully (${affectedRows} row(s) affected)`);
+      }
+    } else {
+      showSuccessMessage('Query executed successfully');
+    }
   } catch (error) {
     console.error('Error executing query:', error);
     showErrorMessage('Query execution failed: ' + error.response?.data?.error || error.message);
@@ -230,11 +242,23 @@ function updateTransactionLogsUI() {
     recentLogs.forEach(log => {
       const logElement = document.createElement('div');
       logElement.className = `log-entry ${log.status}`;
+      
+      // Check if it's a write operation and show affected rows
+      let affectedInfo = '';
+      if (log.results && typeof log.results.affectedRows !== 'undefined') {
+        const affectedRows = log.results.affectedRows;
+        if (affectedRows === 0) {
+          affectedInfo = ` | <span class="affected-rows warning">⚠️ 0 rows affected</span>`;
+        } else {
+          affectedInfo = ` | <span class="affected-rows success">✓ ${affectedRows} row(s) affected</span>`;
+        }
+      }
+      
       logElement.innerHTML = `
         <strong>${log.transactionId.substring(0, 8)}</strong> | 
         ${log.node} | 
         ${log.status} | 
-        Level: ${log.isolationLevel}
+        Level: ${log.isolationLevel}${affectedInfo}
       `;
       logsContainer.appendChild(logElement);
     });

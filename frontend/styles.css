@@ -604,3 +604,21 @@ body {
   color: var(--text-secondary);
   text-align: right;
 }
+
+/* Affected Rows Styling */
+.affected-rows {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.affected-rows.success {
+  color: #28a745;
+}
+
+.affected-rows.warning {
+  color: #ffc107;
+}
+
+.affected-rows.error {
+  color: #dc3545;
+}
