@@ -39,9 +39,13 @@ export async function case2WritePlusReads(writerNode, readerA, readerB, recordId
   const iso = isolationLevel || 'READ_COMMITTED';
   const updateQuery = `UPDATE trans SET amount = ${val} WHERE trans_id = ${id}`;
   const selectQuery = `SELECT * FROM trans WHERE trans_id = ${id}`;
+  
+  // MASTER-SLAVE: Force write to master (node0)
+  const masterNode = 'node0';
+  
   let writeResult;
   try {
-    writeResult = await apiClient.post('/query/execute', { node: writerNode, query: updateQuery, isolationLevel: iso });
+    writeResult = await apiClient.post('/query/execute', { node: masterNode, query: updateQuery, isolationLevel: iso });
   } catch (e) {
     writeResult = { status: 'failed', error: e.message };
   }
@@ -87,10 +91,13 @@ export async function case3ConcurrentWrites(nodeA, nodeB, recordId, valueA, valu
   const updateB = `UPDATE trans SET amount = ${valB} WHERE trans_id = ${id}`;
   const select = `SELECT * FROM trans WHERE trans_id = ${id}`;
 
-  // Fire both writes concurrently
+  // MASTER-SLAVE: Both writes must go to master (node0) - test concurrent writes on same master
+  const masterNode = 'node0';
+  
+  // Fire both writes concurrently to master
   const writePromises = [
-    apiClient.post('/query/execute', { node: nodeA, query: updateA, isolationLevel: isolationA }),
-    apiClient.post('/query/execute', { node: nodeB, query: updateB, isolationLevel: isolationB })
+    apiClient.post('/query/execute', { node: masterNode, query: updateA, isolationLevel: isolationA }),
+    apiClient.post('/query/execute', { node: masterNode, query: updateB, isolationLevel: isolationB })
   ];
   const [wA, wB] = await Promise.allSettled(writePromises);
 

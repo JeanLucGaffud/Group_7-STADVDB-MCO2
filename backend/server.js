@@ -118,17 +118,32 @@ function releaseLock(transId, ownerNode) {
   }
 }
 
-// Simple write replication utility (eager, same query forwarded to other nodes)
+// MASTER-SLAVE: Write replication (master -> slaves only)
 async function replicateWrite(sourceNode, query, isolationLevel) {
   const upper = query.trim().toUpperCase();
   const isWrite = upper.startsWith('UPDATE') || upper.startsWith('INSERT') || upper.startsWith('DELETE');
   if (!isWrite) return [];
-  // Fragmentation rule:
-  // node0: all rows
+  
+  // MASTER-SLAVE RULE: Only master (node0) can initiate writes
+  // Slaves (node1, node2) are read-only replicas
+  if (sourceNode !== 'node0') {
+    const errorEntry = { 
+      id: uuidv4(), 
+      source: sourceNode, 
+      target: 'none', 
+      query, 
+      status: 'rejected', 
+      error: 'MASTER-SLAVE: Writes only allowed on master (node0). Slaves (node1, node2) are read-only.', 
+      time: new Date() 
+    };
+    replicationQueue.push(errorEntry);
+    return [errorEntry];
+  }
+  
+  // Master-to-Slave replication: node0 -> node1, node2
+  // Fragmentation for read optimization:
   // node1: trans newdate < 1997-01-01
   // node2: trans newdate >= 1997-01-01
-  // For writes originating from node0 replicate ONLY to the correct fragment.
-  // For writes from a fragment replicate back to node0 (and validate the date range).
   const FRAG_BOUNDARY = new Date('1997-01-01T00:00:00Z');
 
   // Attempt to extract trans_id for UPDATE/DELETE pattern: WHERE trans_id = <id>
@@ -163,36 +178,22 @@ async function replicateWrite(sourceNode, query, isolationLevel) {
     }
   }
 
+  // Determine target slaves based on date
   const targets = [];
-  if (sourceNode === 'node0') {
-    if (recordDate) {
-      if (recordDate < FRAG_BOUNDARY) {
-        targets.push('node1');
-      } else {
-        targets.push('node2');
-      }
-    } else if (targetFragment) {
-      // Use detected fragment from date-based WHERE clause
-      targets.push(targetFragment);
-      console.log(`🎯 Detected target fragment: ${targetFragment} from query: ${query.substring(0, 100)}...`);
+  if (recordDate) {
+    if (recordDate < FRAG_BOUNDARY) {
+      targets.push('node1');
     } else {
-      // Fallback if we cannot determine date: replicate to both fragments
-      targets.push('node1', 'node2');
-      console.log(`⚠️ Cannot determine target fragment, replicating to both fragments`);
+      targets.push('node2');
     }
+  } else if (targetFragment) {
+    // Use detected fragment from date-based WHERE clause
+    targets.push(targetFragment);
+    console.log(`🎯 [MASTER-SLAVE] Replicating to slave: ${targetFragment}`);
   } else {
-    // Writing on a fragment: replicate to master only AFTER validating fragment rule
-    if (recordDate) {
-      const violatesNode1 = sourceNode === 'node1' && recordDate >= FRAG_BOUNDARY;
-      const violatesNode2 = sourceNode === 'node2' && recordDate < FRAG_BOUNDARY;
-      if (violatesNode1 || violatesNode2) {
-        // Push a failed replication entry noting violation
-        const violationEntry = { id: uuidv4(), source: sourceNode, target: 'node0', query, status: 'failed', error: 'Fragment rule violation (date outside fragment range)', time: new Date(), fragmentRouting: { transId, recordDate } };
-        replicationQueue.push(violationEntry);
-        return [violationEntry];
-      }
-    }
-    targets.push('node0');
+    // Fallback if we cannot determine date: replicate to both slaves
+    targets.push('node1', 'node2');
+    console.log(`⚠️ [MASTER-SLAVE] Cannot determine target slave, replicating to both`);
   }
   const results = [];
   for (const tgt of targets) {
@@ -374,8 +375,23 @@ app.post('/api/query/execute', async (req, res) => {
   };
 
   try {
-    // Acquire per-record lock for writes
+    // MASTER-SLAVE: Enforce write restrictions
     const isWrite = isWriteQuery(query);
+    
+    // Reject writes on slave nodes (node1, node2)
+    if (isWrite && node !== 'node0') {
+      logEntry.status = 'rejected';
+      logEntry.endTime = new Date();
+      logEntry.error = `MASTER-SLAVE: Write operation rejected. Node ${node} is a read-only slave. All writes must go through master (node0).`;
+      transactionLog.push(logEntry);
+      return res.status(403).json({ 
+        transactionId, 
+        error: logEntry.error, 
+        logEntry,
+        hint: 'Please execute write operations on node0 (master) only.'
+      });
+    }
+    
     const lockTransId = isWrite ? parseTransId(query) : null;
     if (isWrite) {
       const lock = acquireLock(lockTransId, node);
@@ -644,12 +660,12 @@ app.get('/api/data/:node', async (req, res) => {
     }
     
     const finalQuery = `${baseQuery} ${whereClause} ${orderClause} LIMIT ${parseInt(limit)}`;
-    console.log(`🔍 Querying: ${finalQuery}`);
+    console.log(`Querying: ${finalQuery}`);
     
     const [results] = await connection.query(finalQuery, params);
     connection.release();
 
-    console.log(`✅ Query successful. Results: ${results.length} rows`);
+    console.log(`Query successful. Results: ${results.length} rows`);
 
     // Mark recently updated records for highlighting
     const recentTransIds = getRecentlyUpdatedTransIds();
@@ -713,8 +729,8 @@ async function start() {
   await initializePools();
   
   app.listen(PORT, () => {
-    console.log(`\n🚀 Distributed DB Simulator Backend running on port ${PORT}`);
-    console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    console.log(`\nDistributed DB Simulator Backend running on port ${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/health`);
     console.log(`\nNode Configuration:`);
     console.log(`  - Node 0 (Master): ${dbConfig.node0.host}:${dbConfig.node0.port}`);
     console.log(`  - Node 1 (Fragment A): ${dbConfig.node1.host}:${dbConfig.node1.port}`);

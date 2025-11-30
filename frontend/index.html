@@ -23,13 +23,13 @@
       <!-- Left Sidebar: Node Management -->
       <section class="sidebar">
         <div class="section-card">
-          <h2>📊 Node Status</h2>
+          <h2>Node Status</h2>
           
           <div class="nodes-grid">
             <div class="node-card master">
               <div id="status-node0" class="node-status offline">NODE 0: OFFLINE</div>
-              <p class="node-role">Master / Central</p>
-              <p class="node-data">Full Dataset</p>
+              <p class="node-role">Master (Read/Write)</p>
+              <p class="node-data">Full Dataset - 20k rows</p>
               <div class="node-buttons">
                 <button onclick="killNode('node0')" class="btn-small danger">Kill</button>
                 <button onclick="recoverNode('node0')" class="btn-small success">Recover</button>
@@ -39,8 +39,8 @@
 
             <div class="node-card fragment">
               <div id="status-node1" class="node-status offline">NODE 1: OFFLINE</div>
-              <p class="node-role">Fragment A</p>
-              <p class="node-data">First Half Rows</p>
+              <p class="node-role">Slave A (Read Only)</p>
+              <p class="node-data">Pre-1997 - 10k rows</p>
               <div class="node-buttons">
                 <button onclick="killNode('node1')" class="btn-small danger">Kill</button>
                 <button onclick="recoverNode('node1')" class="btn-small success">Recover</button>
@@ -50,8 +50,8 @@
 
             <div class="node-card fragment">
               <div id="status-node2" class="node-status offline">NODE 2: OFFLINE</div>
-              <p class="node-role">Fragment B</p>
-              <p class="node-data">Second Half Rows</p>
+              <p class="node-role">Slave B (Read Only)</p>
+              <p class="node-data">Post-1997 - 10k rows</p>
               <div class="node-buttons">
                 <button onclick="killNode('node2')" class="btn-small danger">Kill</button>
                 <button onclick="recoverNode('node2')" class="btn-small success">Recover</button>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="section-card">
-          <h2>⚙️ Control Panel</h2>
+          <h2>Control Panel</h2>
           <button onclick="app.initializeApp()" class="btn-full primary">Reinitialize Backend</button>
           <button onclick="app.startAutoRefresh()" class="btn-full secondary">Start Auto-Refresh</button>
           <button onclick="app.stopAutoRefresh()" class="btn-full secondary">Stop Auto-Refresh</button>
@@ -70,41 +70,114 @@
         </div>
       </section>
 
-      <!-- Center: Query Execution -->
+      <!-- Center: CRUD Operations -->
       <section class="main-content">
         <div class="section-card">
-          <h2>💾 Execute Query</h2>
+          <h2>Database Operations</h2>
           
-          <div class="form-group">
-            <label>Target Node</label>
-            <select id="selectNode" onchange="updateSelectedNode(this.value)">
-              <option value="node0">Node 0 (Master)</option>
-              <option value="node1">Node 1 (Fragment A)</option>
-              <option value="node2">Node 2 (Fragment B)</option>
-            </select>
+          <div class="operation-tabs">
+            <button onclick="showOperationTab('read')" class="tab-btn active" id="readOpTab">Read</button>
+            <button onclick="showOperationTab('write')" class="tab-btn" id="writeOpTab">Write</button>
+            <button onclick="showOperationTab('delete')" class="tab-btn" id="deleteOpTab">Delete</button>
           </div>
 
-          <div class="form-group">
-            <label>Isolation Level</label>
-            <select id="isolationLevel" onchange="updateIsolationLevel(this.value)">
-              <option value="READ_UNCOMMITTED">Read Uncommitted</option>
-              <option value="READ_COMMITTED" selected>Read Committed</option>
-              <option value="REPEATABLE_READ">Repeatable Read</option>
-              <option value="SERIALIZABLE">Serializable</option>
-            </select>
+          <!-- READ Operation -->
+          <div id="readOperation" class="operation-panel active">
+            <h3>Read Transaction</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Read from Node:</label>
+                <select id="readNodeSelect" class="form-control">
+                  <option value="node0">Node 0 - Master (All Data)</option>
+                  <option value="node1">Node 1 - Slave A (Pre-1997)</option>
+                  <option value="node2">Node 2 - Slave B (1997+)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Transaction ID: <span class="required">*</span></label>
+                <input type="number" id="readTransId" class="form-control" placeholder="Enter trans_id">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Isolation Level:</label>
+              <select id="readIsolation" class="form-control">
+                <option value="READ_COMMITTED" selected>Read Committed</option>
+                <option value="READ_UNCOMMITTED">Read Uncommitted</option>
+                <option value="REPEATABLE_READ">Repeatable Read</option>
+                <option value="SERIALIZABLE">Serializable</option>
+              </select>
+            </div>
+            <button onclick="executeReadOperation()" class="btn btn-primary">Execute Read</button>
+            <div id="readOperationResult" class="operation-result"></div>
           </div>
 
-          <div class="form-group">
-            <label>SQL Query</label>
-            <textarea id="queryInput" placeholder="Enter SQL query here..." rows="6"></textarea>
+          <!-- WRITE Operation -->
+          <div id="writeOperation" class="operation-panel">
+            <h3>Write Transaction</h3>
+            <p class="warning-text">Master-Slave Mode: Write executes on Node 0 (Master) and replicates to Node 1 (pre-1997) or Node 2 (1997+) based on date.</p>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Account ID: <span class="required">*</span></label>
+                <input type="number" id="writeAccountId" class="form-control" placeholder="e.g., 2378" required>
+              </div>
+              <div class="form-group">
+                <label>Transaction Date: <span class="required">*</span></label>
+                <input type="date" id="writeDate" class="form-control" required>
+                <small>Pre-1997 → Node 1 | 1997+ → Node 2</small>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Amount: <span class="required">*</span></label>
+                <input type="number" id="writeAmount" class="form-control" step="0.01" placeholder="e.g., 500.00" required>
+              </div>
+              <div class="form-group">
+                <label>Balance: <span class="required">*</span></label>
+                <input type="number" id="writeBalance" class="form-control" step="0.01" placeholder="e.g., 1500.00" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Isolation Level:</label>
+              <select id="writeIsolation" class="form-control">
+                <option value="READ_COMMITTED" selected>Read Committed</option>
+                <option value="SERIALIZABLE">Serializable</option>
+              </select>
+            </div>
+            <button onclick="executeWriteOperation()" class="btn btn-success">Execute Write</button>
+            <div id="writeOperationResult" class="operation-result"></div>
           </div>
 
-          <button onclick="executeQuery()" class="btn-full primary">Execute Query</button>
+          <!-- DELETE Operation -->
+          <div id="deleteOperation" class="operation-panel">
+            <h3>Delete Transaction</h3>
+            <p class="warning-text">Executes on Node 0 (Master) and replicates to appropriate slave.</p>
+            
+            <div class="form-group">
+              <label>Transaction ID to Delete: <span class="required">*</span></label>
+              <input type="number" id="deleteTransId" class="form-control" placeholder="Enter trans_id" required>
+            </div>
+            <div class="form-group">
+              <label>Isolation Level:</label>
+              <select id="deleteIsolation" class="form-control">
+                <option value="READ_COMMITTED" selected>Read Committed</option>
+                <option value="SERIALIZABLE">Serializable</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="deleteConfirm">
+                I confirm I want to permanently delete this transaction
+              </label>
+            </div>
+            <button onclick="executeDeleteOperation()" class="btn btn-danger">Execute Delete</button>
+            <div id="deleteOperationResult" class="operation-result"></div>
+          </div>
         </div>
 
         <!-- Transaction Logs -->
         <div class="section-card">
-          <h2>📝 Recent Transactions (Last 10)</h2>
+          <h2>Recent Transactions (Last 10)</h2>
           <div id="transaction-logs" class="logs-container">
             <div class="log-entry">No transactions yet</div>
           </div>
@@ -114,7 +187,7 @@
       <!-- Right Sidebar: Replication & Status -->
       <section class="sidebar">
         <div class="section-card">
-          <h2>🔄 Replication Queue</h2>
+          <h2>Replication Queue</h2>
           <div id="replication-queue" class="logs-container">
             <div class="queue-entry">Queue is empty</div>
           </div>
@@ -122,7 +195,7 @@
         </div>
 
         <div class="section-card">
-          <h2>🧪 Test Cases</h2>
+          <h2>Test Cases</h2>
           <button onclick="openCase1Modal()" class="btn-full info">Case 1: Concurrent Reads</button>
           <button onclick="openCase2Modal()" class="btn-full info">Case 2: Write + Reads</button>
           <button onclick="openCase3Modal()" class="btn-full info">Case 3: Concurrent Writes</button>
@@ -319,21 +392,6 @@
     app.initializeApp();
 
     // UI Event Handlers
-    window.updateSelectedNode = function(node) {
-      app.setState({ selectedNode: node });
-    };
-
-    window.updateIsolationLevel = function(level) {
-      app.setState({ selectedIsolationLevel: level });
-    };
-
-    window.executeQuery = async function() {
-      const queryInput = document.getElementById('queryInput');
-      const query = queryInput.value;
-      await app.executeQueryAction(query);
-      queryInput.value = '';
-    };
-
     window.killNode = async function(node) {
       if (confirm(`Are you sure you want to kill ${node}?`)) {
         await app.killNodeAction(node);

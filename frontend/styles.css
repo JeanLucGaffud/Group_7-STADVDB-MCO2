@@ -237,7 +237,7 @@ body {
 .btn-primary:hover {
   background-color: #1d4ed8;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
 
 .btn-secondary {
@@ -256,6 +256,8 @@ body {
 
 .btn-success:hover {
   background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .btn-danger {
@@ -265,6 +267,8 @@ body {
 
 .btn-danger:hover {
   background-color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
 .btn-warning {
@@ -274,6 +278,8 @@ body {
 
 .btn-warning:hover {
   background-color: #d97706;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
 .btn-info {
@@ -621,4 +627,300 @@ body {
 
 .affected-rows.error {
   color: #dc3545;
+}
+
+/* ============================================
+   CRUD OPERATIONS STYLES
+   ============================================ */
+
+/* Info Text */
+.info-text {
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 3px solid var(--info-color);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.warning-text {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 3px solid var(--warning-color);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  color: var(--warning-color);
+  font-size: 0.9rem;
+}
+
+/* Operation Tabs */
+.operation-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tab-btn {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.tab-btn:hover {
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+/* Operation Panels */
+.operation-panel {
+  display: none;
+  animation: fadeIn 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.operation-panel.active {
+  display: block;
+}
+
+.operation-panel h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.operation-panel h4 {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 1rem 0 0.5rem 0;
+}
+
+/* Larger buttons for CRUD operations */
+.operation-panel button.btn-primary,
+.operation-panel button.btn-success,
+.operation-panel button.btn-danger {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Form Styles */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.required {
+  color: var(--danger-color);
+}
+
+.form-control {
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+/* Better styling for select dropdowns */
+select.form-control {
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+select.form-control option {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  padding: 0.5rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 3px rgba(103, 58, 183, 0.1);
+}
+
+.form-control::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 4px;
+  color: var(--text-color);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Operation Results */
+.operation-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 4px;
+  animation: slideIn 0.3s ease;
+}
+
+.operation-result .success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success-color);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.operation-result .error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger-color);
+  padding: 1rem;
+  border-radius: 4px;
+  color: var(--danger-color);
+}
+
+.operation-result .loading {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--info-color);
+  padding: 1rem;
+  border-radius: 4px;
+  color: var(--info-color);
+  text-align: center;
+}
+
+.operation-result h4 {
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.operation-result h5 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.operation-result ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+.operation-result ul li {
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.operation-result ul li.success {
+  border-left: 3px solid var(--success-color);
+}
+
+.operation-result ul li.error {
+  border-left: 3px solid var(--danger-color);
+}
+
+/* Record Display */
+.record-display {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.record-field {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.record-field:last-child {
+  border-bottom: none;
+}
+
+.field-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+  min-width: 120px;
+}
+
+.field-value {
+  color: var(--text-color);
+  font-family: 'Courier New', monospace;
+  text-align: right;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

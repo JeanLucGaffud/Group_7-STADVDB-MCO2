@@ -396,3 +396,198 @@ export async function runConcurrentReads(nodeA, nodeB, recordId, isolationLevel)
   const [ra, rb] = await Promise.allSettled([a, b]);
   return { ra, rb, query, isolationLevel: level };
 }
+
+// ============================================
+// CRUD OPERATIONS
+// ============================================
+
+// Operation Tab Management
+window.showOperationTab = function(tabName) {
+  ['read', 'write', 'delete'].forEach(op => {
+    const panel = document.getElementById(`${op}Operation`);
+    const tab = document.getElementById(`${op}OpTab`);
+    if (panel && tab) {
+      panel.classList.toggle('active', op === tabName);
+      tab.classList.toggle('active', op === tabName);
+    }
+  });
+};
+
+// READ Operation
+window.executeReadOperation = async function() {
+  const node = document.getElementById('readNodeSelect').value;
+  const transId = document.getElementById('readTransId').value;
+  const isolation = document.getElementById('readIsolation').value;
+  const resultDiv = document.getElementById('readOperationResult');
+
+  if (!transId) {
+    resultDiv.innerHTML = '<div class="error">❌ Transaction ID is required</div>';
+    return;
+  }
+
+  const query = `SELECT * FROM trans WHERE trans_id = ${transId}`;
+  resultDiv.innerHTML = '<div class="loading">Reading transaction...</div>';
+
+  try {
+    const response = await executeQuery(node, query, isolation);
+    const results = response.data.results || [];
+    
+    if (results.length === 0) {
+      resultDiv.innerHTML = `<div class="error">No transaction found with trans_id = ${transId} on ${node}</div>`;
+      return;
+    }
+
+    const row = results[0];
+    resultDiv.innerHTML = `
+      <div class="success">
+        <h4>Read Successful</h4>
+        <p><strong>Node:</strong> ${node} | <strong>Isolation:</strong> ${isolation}</p>
+        <div class="record-display">
+          <div class="record-field">
+            <span class="field-label">trans_id:</span>
+            <span class="field-value">${row.trans_id}</span>
+          </div>
+          <div class="record-field">
+            <span class="field-label">account_id:</span>
+            <span class="field-value">${row.account_id}</span>
+          </div>
+          <div class="record-field">
+            <span class="field-label">newdate:</span>
+            <span class="field-value">${new Date(row.newdate).toLocaleDateString()}</span>
+          </div>
+          <div class="record-field">
+            <span class="field-label">amount:</span>
+            <span class="field-value">${row.amount}</span>
+          </div>
+          <div class="record-field">
+            <span class="field-label">balance:</span>
+            <span class="field-value">${row.balance}</span>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    await refreshTransactionLogs();
+  } catch (error) {
+    resultDiv.innerHTML = `<div class="error">Read failed: ${error.response?.data?.error || error.message}</div>`;
+  }
+};
+
+// WRITE Operation
+window.executeWriteOperation = async function() {
+  const accountId = document.getElementById('writeAccountId').value;
+  const date = document.getElementById('writeDate').value;
+  const amount = document.getElementById('writeAmount').value;
+  const balance = document.getElementById('writeBalance').value;
+  const isolation = document.getElementById('writeIsolation').value;
+  const resultDiv = document.getElementById('writeOperationResult');
+
+  // Validation
+  if (!accountId || !date || !amount || !balance) {
+    resultDiv.innerHTML = '<div class="error">All fields are required</div>';
+    return;
+  }
+
+  const query = `INSERT INTO trans (account_id, newdate, amount, balance) 
+                 VALUES (${accountId}, '${date}', ${amount}, ${balance})`;
+
+  resultDiv.innerHTML = '<div class="loading">Writing transaction to master...</div>';
+
+  try {
+    const response = await executeQuery('node0', query, isolation);
+    const replication = response.data.replication || [];
+    const insertId = response.data.results.insertId;
+
+    // Determine which slave received the data
+    const targetSlave = new Date(date) < new Date('1997-01-01') ? 'Node 1 (Pre-1997)' : 'Node 2 (1997+)';
+
+    resultDiv.innerHTML = `
+      <div class="success">
+        <h4>Write Successful</h4>
+        <p><strong>New trans_id:</strong> ${insertId || 'Auto-generated'}</p>
+        <p><strong>Executed on:</strong> Node 0 (Master)</p>
+        <p><strong>Target Slave:</strong> ${targetSlave}</p>
+        <h5>Replication Status:</h5>
+        <ul>
+          ${replication.map(r => `
+            <li class="${r.status === 'replicated' ? 'success' : 'error'}">
+              <strong>${r.target}:</strong> ${r.status}
+              ${r.error ? `<br><small>Error: ${r.error}</small>` : ''}
+            </li>
+          `).join('')}
+        </ul>
+        <p><em>Record written to master and replicated to ${targetSlave}</em></p>
+      </div>
+    `;
+
+    // Clear form
+    document.getElementById('writeAccountId').value = '';
+    document.getElementById('writeDate').value = '';
+    document.getElementById('writeAmount').value = '';
+    document.getElementById('writeBalance').value = '';
+
+    await refreshTransactionLogs();
+    await refreshReplicationQueue();
+  } catch (error) {
+    resultDiv.innerHTML = `<div class="error">Write failed: ${error.response?.data?.error || error.message}</div>`;
+  }
+};
+
+// DELETE Operation
+window.executeDeleteOperation = async function() {
+  const transId = document.getElementById('deleteTransId').value;
+  const isolation = document.getElementById('deleteIsolation').value;
+  const confirm = document.getElementById('deleteConfirm').checked;
+  const resultDiv = document.getElementById('deleteOperationResult');
+
+  if (!transId) {
+    resultDiv.innerHTML = '<div class="error">Transaction ID is required</div>';
+    return;
+  }
+
+  if (!confirm) {
+    resultDiv.innerHTML = '<div class="error">Please confirm deletion</div>';
+    return;
+  }
+
+  const query = `DELETE FROM trans WHERE trans_id = ${transId}`;
+
+  resultDiv.innerHTML = '<div class="loading">Deleting transaction from master...</div>';
+
+  try {
+    const response = await executeQuery('node0', query, isolation);
+    const replication = response.data.replication || [];
+    const affectedRows = response.data.results.affectedRows;
+
+    if (affectedRows === 0) {
+      resultDiv.innerHTML = `<div class="error">No transaction found with trans_id = ${transId}</div>`;
+      return;
+    }
+
+    resultDiv.innerHTML = `
+      <div class="success">
+        <h4>Delete Successful</h4>
+        <p><strong>Deleted trans_id:</strong> ${transId}</p>
+        <h5>Replication Status:</h5>
+        <ul>
+          ${replication.map(r => `
+            <li class="${r.status === 'replicated' ? 'success' : 'error'}">
+              <strong>${r.target}:</strong> ${r.status}
+              ${r.error ? `<br><small>Error: ${r.error}</small>` : ''}
+            </li>
+          `).join('')}
+        </ul>
+        <p><em>Record deleted from master and replicated to appropriate slave</em></p>
+      </div>
+    `;
+
+    // Clear form
+    document.getElementById('deleteTransId').value = '';
+    document.getElementById('deleteConfirm').checked = false;
+
+    await refreshTransactionLogs();
+    await refreshReplicationQueue();
+  } catch (error) {
+    resultDiv.innerHTML = `<div class="error">Delete failed: ${error.response?.data?.error || error.message}</div>`;
+  }
+};
