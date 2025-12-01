@@ -3,8 +3,15 @@ import cors from 'cors';
 import mysql from 'mysql2/promise';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const STATE_FILE = path.join(__dirname, 'node_state.json');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -91,6 +98,26 @@ let simulatedFailures = {
   node2: false
 };
 
+// Load state from file
+try {
+  if (fs.existsSync(STATE_FILE)) {
+    const data = fs.readFileSync(STATE_FILE, 'utf8');
+    simulatedFailures = JSON.parse(data);
+    console.log('[STATE] Loaded simulated failures:', simulatedFailures);
+  }
+} catch (err) {
+  console.error('[STATE] Error loading state:', err);
+}
+
+function saveState() {
+  try {
+    fs.writeFileSync(STATE_FILE, JSON.stringify(simulatedFailures, null, 2));
+    console.log('[STATE] Saved simulated failures:', simulatedFailures);
+  } catch (err) {
+    console.error('[STATE] Error saving state:', err);
+  }
+}
+
 // Replication Queue
 let replicationQueue = [];
 
@@ -175,7 +202,12 @@ async function releaseLock(connection, transId, ownerNode) {
  * @returns {Promise<{success: boolean, lockedNodes: Array, errors: Array}>}
  */
 async function acquireDistributedLocks(targetNodes, transId, sourceNode) {
-  if (!transId) return { success: true, lockedNodes: [], errors: [] };
+  // If no transId, we cannot lock specific rows. 
+  // We return all targets as "locked" (effectively skipped locking) to ensure replication proceeds.
+  if (!transId) {
+    console.log('[LOCK] No transId found, skipping locks but proceeding with replication');
+    return { success: true, lockedNodes: [...targetNodes], errors: [] };
+  }
   
   const lockedNodes = [];
   const errors = [];
@@ -474,6 +506,18 @@ async function checkNodeHealth() {
       await connection.query({ sql: 'SELECT 1', timeout: 2000 });
       
       connection.release();
+      
+      // DOUBLE CHECK: If simulated failure was activated while we were connecting, respect it.
+      if (simulatedFailures[node]) {
+        nodeStatus[node] = { 
+          status: 'offline', 
+          lastCheck: new Date(), 
+          error: 'Simulated node failure',
+          failureTime: nodeStatus[node].failureTime || new Date()
+        };
+        return;
+      }
+
       nodeStatus[node] = { status: 'online', lastCheck: new Date() };
     } catch (error) {
       // If we obtained a connection but it failed, destroy it to remove from pool
@@ -538,6 +582,8 @@ app.post('/api/db/init', async (req, res) => {
 // 3. Get Node Status
 app.get('/api/nodes/status', async (req, res) => {
   try {
+    // Force no-cache for this specific endpoint to ensure UI updates immediately
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     await checkNodeHealth();
     res.json(nodeStatus);
   } catch (error) {
@@ -660,6 +706,8 @@ app.post('/api/nodes/kill', (req, res) => {
   if (nodeStatus[node]) {
     // Mark node for simulated failure
     simulatedFailures[node] = true;
+    saveState(); // Persist state
+    
     nodeStatus[node].status = 'offline';
     nodeStatus[node].failureTime = new Date();
     
@@ -682,6 +730,8 @@ app.post('/api/nodes/recover', async (req, res) => {
     if (nodeStatus[node]) {
       // Remove simulated failure flag
       simulatedFailures[node] = false;
+      saveState(); // Persist state
+      
       delete nodeStatus[node].failureTime;
       
       console.log(`[RECOVERY] RECOVERING NODE: ${node} - Simulated failure removed`);
