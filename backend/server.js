@@ -709,6 +709,7 @@ app.get('/api/data/:node', async (req, res) => {
     return res.status(400).json({ error: 'Invalid node' });
   }
 
+  let connection;
   try {
     console.log(`[CONNECTION] Getting connection for ${node}...`);
     connection = await pools[node].getConnection();
@@ -791,6 +792,9 @@ app.get('/api/data/:node', async (req, res) => {
   } catch (error) {
     console.error(`[ERROR] Error fetching data from ${node}:`, error.message);
     console.error(`[ERROR] Error details:`, error);
+    if (connection) {
+      connection.release();
+    }
     res.status(500).json({ error: error.message, details: error.sqlMessage || 'Unknown error' });
   }
 });
