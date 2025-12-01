@@ -371,13 +371,14 @@ window.showOperationTab = function(tabName) {
 
 // INSERT Operation
 window.executeInsert = async function() {
+  const targetNode = document.getElementById('insertTargetNode').value;
   const transId = document.getElementById('insertTransId').value;
   const accountId = document.getElementById('insertAccountId').value;
   const date = document.getElementById('insertDate').value;
   const amount = document.getElementById('insertAmount').value;
   const balance = document.getElementById('insertBalance').value;
   
-  if (!transId || !accountId || !date || !amount || !balance) {
+  if (!targetNode || !transId || !accountId || !date || !amount || !balance) {
     showErrorMessage('Please fill in all required fields');
     return;
   }
@@ -385,11 +386,11 @@ window.executeInsert = async function() {
   const query = `INSERT INTO trans (trans_id, account_id, newdate, amount, balance) VALUES (${transId}, ${accountId}, '${date}', ${amount}, ${balance})`;
   
   try {
-    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    const response = await executeQuery(targetNode, query, 'READ_COMMITTED');
     document.getElementById('insertResult').innerHTML = `
       <div class="success-box">
         <strong>Insert Successful</strong><br>
-        Inserted to Node 0 (Master) and replicated to ${date < '1997-01-01' ? 'Node 1 (Pre-1997)' : 'Node 2 (1997+)'}<br>
+        Executed on ${targetNode.toUpperCase()} and replicated based on fragmentation rules<br>
         Trans ID: ${transId}, Account: ${accountId}, Date: ${date}, Amount: ${amount}, Balance: ${balance}
       </div>
     `;
@@ -485,6 +486,7 @@ window.executeUpdate = async function() {
     document.getElementById('updateResult').innerHTML = `
       <div class="success-box">
         <strong>Update Successful</strong><br>
+        Executed on ${targetNode.toUpperCase()}<br>
         Updated Trans ID: ${transId}<br>
         ${accountId ? `New Account ID: ${accountId}<br>` : ''}
         ${date ? `New Date: ${date}<br>` : ''}
@@ -543,11 +545,12 @@ window.loadRecordForDelete = async function() {
 
 // DELETE Operation - Execute
 window.executeDelete = async function() {
+  const targetNode = document.getElementById('deleteTargetNode').value;
   const transId = document.getElementById('deleteTransId').value;
   const confirmed = document.getElementById('deleteConfirm').checked;
   
-  if (!transId) {
-    showErrorMessage('Please enter a Transaction ID');
+  if (!targetNode || !transId) {
+    showErrorMessage('Please select a target node and enter a Transaction ID');
     return;
   }
   
@@ -559,12 +562,12 @@ window.executeDelete = async function() {
   const query = `DELETE FROM trans WHERE trans_id = ${transId}`;
   
   try {
-    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    const response = await executeQuery(targetNode, query, 'READ_COMMITTED');
     document.getElementById('deleteResult').innerHTML = `
       <div class="success-box">
         <strong>Delete Successful</strong><br>
-        Deleted Trans ID: ${transId} from Node 0 (Master)<br>
-        Changes replicated to appropriate fragment node.
+        Deleted Trans ID: ${transId} from ${targetNode.toUpperCase()}<br>
+        Changes replicated based on fragmentation rules.
       </div>
     `;
     
