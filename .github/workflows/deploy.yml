@@ -22,17 +22,24 @@ jobs:
           port: ${{ matrix.port }}
           script: |
             # 1. Navigate to project
-            cd /var/www/db-frontend   # <--- MAKE SURE THIS PATH IS CORRECT ON ALL NODES
+            cd /var/www/db-frontend
             
             # 2. Pull latest changes
             git pull origin main
             
-            # 3. Install dependencies
+            # 3. Backend Setup
+            echo "Deploying Backend..."
+            cd backend
             npm install
+            cd ..
             
-            # 4. Rebuild the frontend (Vite)
+            # 4. Frontend Setup
+            echo "Deploying Frontend..."
+            cd frontend
+            npm install
             npm run build
+            cd ..
             
             # 5. Restart Backend (PM2)
-            # (Assuming your backend is in the same repo, or skip if only frontend)
+            # Frontend is served by Nginx.
             pm2 restart all
