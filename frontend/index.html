@@ -84,7 +84,16 @@
           <!-- INSERT Operation -->
           <div id="insertOperation" class="operation-panel active">
             <h2>Insert New Transaction</h2>
-            <p class="info-text">All inserts are written to Node 0 (Master) and automatically replicated to the appropriate fragment.</p>
+            <p class="info-text">Select the target node for execution. Replication will occur automatically based on fragmentation rules.</p>
+            
+            <div class="form-group">
+              <label>Target Node <span class="required">*</span></label>
+              <select id="insertTargetNode" class="form-control">
+                <option value="node0">Node 0 (Central/Master)</option>
+                <option value="node1">Node 1 (Fragment A)</option>
+                <option value="node2">Node 2 (Fragment B)</option>
+              </select>
+            </div>
             
             <div class="form-row">
               <div class="form-group">
@@ -127,7 +136,16 @@
           <!-- UPDATE Operation -->
           <div id="updateOperation" class="operation-panel">
             <h2>Update Existing Transaction</h2>
-            <p class="info-text">Updates are executed on Node 0 (Master) and replicated to fragments.</p>
+            <p class="info-text">Select the target node for execution. Replication will occur automatically based on fragmentation rules.</p>
+            
+            <div class="form-group">
+              <label>Target Node <span class="required">*</span></label>
+              <select id="updateTargetNode" class="form-control">
+                <option value="node0">Node 0 (Central/Master)</option>
+                <option value="node1">Node 1 (Fragment A)</option>
+                <option value="node2">Node 2 (Fragment B)</option>
+              </select>
+            </div>
             
             <div class="form-group">
               <label>Transaction ID to Update <span class="required">*</span></label>
@@ -170,7 +188,16 @@
           <!-- DELETE Operation -->
           <div id="deleteOperation" class="operation-panel">
             <h2>Delete Transaction</h2>
-            <p class="warning-text">WARNING: Deletion is executed on Node 0 (Master) and replicated to fragments. This action cannot be undone.</p>
+            <p class="warning-text">WARNING: Select the target node for execution. Replication will occur automatically. This action cannot be undone.</p>
+            
+            <div class="form-group">
+              <label>Target Node <span class="required">*</span></label>
+              <select id="deleteTargetNode" class="form-control">
+                <option value="node0">Node 0 (Central/Master)</option>
+                <option value="node1">Node 1 (Fragment A)</option>
+                <option value="node2">Node 2 (Fragment B)</option>
+              </select>
+            </div>
             
             <div class="form-group">
               <label>Transaction ID to Delete <span class="required">*</span></label>

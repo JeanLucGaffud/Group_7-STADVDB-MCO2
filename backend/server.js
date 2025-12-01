@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
 //This is for testing
 dotenv.config();
-
+// test tesing
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -444,6 +444,26 @@ async function replicateWrite(sourceNode, query) {
   // Execute replication to each target
   const results = [];
   for (const target of targets) {
+    // Pre-check: Skip replication if target is marked as failed
+    if (simulatedFailures[target]) {
+      console.log(`[REPLICATION SKIP] ${sourceNode} → ${target}: Node marked as failed (simulatedFailures[${target}] = true)`);
+      const entry = {
+        id: uuidv4(),
+        source: sourceNode,
+        target,
+        query,
+        status: 'failed',
+        error: `Node ${target} is offline (simulated failure)`,
+        time: new Date()
+      };
+      replicationQueue.push(entry);
+      results.push(entry);
+      continue; // Skip to next target - DO NOT execute query
+    }
+
+    // If we get here, the node is NOT marked as failed
+    console.log(`[REPLICATION ATTEMPT] ${sourceNode} → ${target}: Node is online (simulatedFailures[${target}] = ${simulatedFailures[target]})`);
+    
     const entry = {
       id: uuidv4(),
       source: sourceNode,
@@ -454,10 +474,6 @@ async function replicateWrite(sourceNode, query) {
     };
 
     try {
-      if (simulatedFailures[target]) {
-        throw new Error(`Node ${target} is offline (simulated)`);
-      }
-
       const conn = await pools[target].getConnection();
       await conn.query(query);
       conn.release();
@@ -580,8 +596,14 @@ app.post('/api/query/execute', async (req, res) => {
   }
 
   const transactionId = uuidv4();
-  const effectiveIsolation = isolationLevel || 'READ_COMMITTED';
-  
+
+  // Check if the target node is marked as failed
+  // Note: We still allow operations on the target node itself to test partial failures
+  // Replication to failed nodes will be blocked at the replication level
+  if (simulatedFailures[node]) {
+    console.log(`[WARNING] Attempting operation on failed node ${node} (simulated failure) - will proceed but replication may fail`);
+  }
+
   const logEntry = {
     transactionId,
     node,
