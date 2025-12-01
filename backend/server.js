@@ -3,8 +3,16 @@ import cors from 'cors';
 import mysql from 'mysql2/promise';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Use process.cwd() to ensure we write to the application root, which is more likely to be persistent/shared
+const STATE_FILE = path.join(process.cwd(), 'node_state.json');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -91,64 +99,23 @@ let simulatedFailures = {
   node2: false
 };
 
-// Initialize simulation state table in DB (Node 0)
-async function initSimulationState() {
-  try {
-    if (!pools.node0) return;
-    const conn = await pools.node0.getConnection();
-    await conn.query(`
-      CREATE TABLE IF NOT EXISTS node_simulation_state (
-        node_name VARCHAR(50) PRIMARY KEY,
-        is_dead BOOLEAN DEFAULT FALSE
-      )
-    `);
-    // Ensure rows exist
-    await conn.query(`
-      INSERT IGNORE INTO node_simulation_state (node_name, is_dead) 
-      VALUES ('node0', false), ('node1', false), ('node2', false)
-    `);
-    conn.release();
-    console.log('[STATE] Simulation state table initialized on Node 0');
-  } catch (err) {
-    console.error('[STATE] Failed to init state table:', err.message);
+// Load state from file
+try {
+  if (fs.existsSync(STATE_FILE)) {
+    const data = fs.readFileSync(STATE_FILE, 'utf8');
+    simulatedFailures = JSON.parse(data);
+    console.log('[STATE] Loaded simulated failures:', simulatedFailures);
   }
+} catch (err) {
+  console.error('[STATE] Error loading state:', err);
 }
 
-// Load state from DB (Node 0)
-async function loadSimulationState() {
+function saveState() {
   try {
-    if (!pools.node0) return;
-    // Use a short timeout for state loading to avoid blocking
-    const conn = await pools.node0.getConnection();
-    // Set a short timeout for this query
-    await conn.query('SET SESSION MAX_EXECUTION_TIME=1000'); 
-    const [rows] = await conn.query('SELECT * FROM node_simulation_state');
-    conn.release();
-    
-    if (rows && rows.length > 0) {
-      rows.forEach(row => {
-        simulatedFailures[row.node_name] = !!row.is_dead;
-      });
-    }
+    fs.writeFileSync(STATE_FILE, JSON.stringify(simulatedFailures, null, 2));
+    console.log('[STATE] Saved simulated failures:', simulatedFailures);
   } catch (err) {
-    // If node0 is down or unreachable, we can't load state. 
-    // We keep the current in-memory state.
-    // console.error('[STATE] Failed to load state:', err.message);
-  }
-}
-
-async function updateSimulationState(node, isDead) {
-  try {
-    if (!pools.node0) return;
-    const conn = await pools.node0.getConnection();
-    await conn.query(
-      'INSERT INTO node_simulation_state (node_name, is_dead) VALUES (?, ?) ON DUPLICATE KEY UPDATE is_dead = ?',
-      [node, isDead, isDead]
-    );
-    conn.release();
-    console.log(`[STATE] Updated ${node} is_dead=${isDead} in DB`);
-  } catch (err) {
-    console.error('[STATE] Failed to update state:', err.message);
+    console.error('[STATE] Error saving state:', err);
   }
 }
 
@@ -469,9 +436,6 @@ async function initializePools() {
     
     console.log('Connection pools initialized');
     
-    // Initialize simulation state table
-    await initSimulationState();
-
     // Test all connections
     await testAllConnections();
   } catch (error) {
@@ -513,8 +477,18 @@ async function testAllConnections() {
 
 // Check node health
 async function checkNodeHealth() {
-  // RELOAD STATE: Ensure we have the latest simulation state from DB
-  await loadSimulationState();
+  // RELOAD STATE: Ensure we have the latest simulation state from disk
+  // This handles cases where multiple processes are running or state was updated by another request
+  try {
+    if (fs.existsSync(STATE_FILE)) {
+      const data = fs.readFileSync(STATE_FILE, 'utf8');
+      const fileState = JSON.parse(data);
+      // Update in-memory state
+      simulatedFailures = { ...simulatedFailures, ...fileState };
+    }
+  } catch (err) {
+    console.error('[STATE] Error reloading state in health check:', err);
+  }
 
   const nodes = ['node0', 'node1', 'node2'];
   
@@ -745,13 +719,13 @@ app.get('/api/replication/queue', (req, res) => {
 });
 
 // 7. Simulate Node Failure
-app.post('/api/nodes/kill', async (req, res) => {
+app.post('/api/nodes/kill', (req, res) => {
   const { node } = req.body;
   
   if (nodeStatus[node]) {
     // Mark node for simulated failure
     simulatedFailures[node] = true;
-    await updateSimulationState(node, true); // Persist state to DB
+    saveState(); // Persist state
     
     nodeStatus[node].status = 'offline';
     nodeStatus[node].failureTime = new Date();
@@ -775,7 +749,7 @@ app.post('/api/nodes/recover', async (req, res) => {
     if (nodeStatus[node]) {
       // Remove simulated failure flag
       simulatedFailures[node] = false;
-      await updateSimulationState(node, false); // Persist state to DB
+      saveState(); // Persist state
       
       delete nodeStatus[node].failureTime;
       
