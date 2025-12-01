@@ -42,7 +42,7 @@ jobs:
             cd frontend
             npm install
             # USE RELATIVE PATH (Best for firewalls)
-            #export VITE_API_URL="/api"
+            export VITE_API_URL="/api"
             npm run build
             cd ..
             
