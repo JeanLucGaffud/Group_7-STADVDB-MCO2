@@ -3,9 +3,7 @@ import cors from 'cors';
 import mysql from 'mysql2/promise';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
-//This is for testing
 dotenv.config();
-// test tesing
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -24,7 +22,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Prevent caching for all API routes
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   next();
@@ -76,48 +73,31 @@ const dbConfig = {
   }
 };
 
-// Connection Pools
 let pools = {
   node0: null,
   node1: null,
   node2: null
 };
 
-// Node Status Tracking
 let nodeStatus = {
   node0: { status: 'offline', lastCheck: null },
   node1: { status: 'offline', lastCheck: null },
   node2: { status: 'offline', lastCheck: null }
 };
 
-// Simulated Node Failures (to override actual connectivity)
 let simulatedFailures = {
   node0: false,
   node1: false,
   node2: false
 };
 
-// Replication Queue
 let replicationQueue = [];
-
-// Transaction Log
 let transactionLog = [];
-
-// ============================================================================
-// CUSTOM APPLICATION-LEVEL LOCK MANAGER (NOT using MySQL built-in locking)
-// ============================================================================
-
-// =============================================================================
-// SIMPLE CONCURRENCY CONTROL - ISOLATION LEVELS
-// =============================================================================
-
-// Track active (uncommitted) transactions globally
 let activeTransactions = {};
-// { "trans_123": { node: "node0", startTime: timestamp } }
+
 
 const TRANSACTION_TIMEOUT = 5000; // 5 seconds
 
-// Helper functions
 function parseTransId(query) {
   const match = /WHERE\s+trans_id\s*=\s*(\d+)/i.exec(query || '');
   return match ? parseInt(match[1], 10) : null;
@@ -128,22 +108,17 @@ function isWriteQuery(query) {
   return upper.startsWith('UPDATE') || upper.startsWith('INSERT') || upper.startsWith('DELETE');
 }
 
-/**
- * Check if read can proceed based on isolation level
- * Simple rule: If transaction is active, wait (except READ_UNCOMMITTED)
- */
+
 async function canReadProceed(transId, isolationLevel) {
   if (!transId || !activeTransactions[transId]) {
-    return true; // No active transaction, proceed
+    return true; 
   }
   
-  // READ_UNCOMMITTED: Always proceed (dirty reads allowed)
   if (isolationLevel === 'READ_UNCOMMITTED') {
     console.log(`[READ_UNCOMMITTED] Dirty read allowed on trans_id=${transId}`);
     return true;
   }
   
-  // All other levels: Wait for transaction to commit
   console.log(`[${isolationLevel}] Waiting for trans_id=${transId} to commit...`);
   const startWait = Date.now();
   
@@ -158,14 +133,10 @@ async function canReadProceed(transId, isolationLevel) {
   return true;
 }
 
-/**
- * Start a transaction (mark as active)
- * If transaction already active, wait for it to complete (prevents concurrent writes)
- */
+
 async function startTransaction(transId, node) {
   if (!transId) return;
   
-  // Wait if same transaction is already active (prevents concurrent writes to same record)
   if (activeTransactions[transId]) {
     console.log(`[TXN WAIT] trans_id=${transId} already active on ${activeTransactions[transId].node}, waiting...`);
     const startWait = Date.now();
@@ -180,14 +151,11 @@ async function startTransaction(transId, node) {
     console.log(`[TXN WAIT] trans_id=${transId} completed, proceeding...`);
   }
   
-  // Mark transaction as active
   activeTransactions[transId] = { node, startTime: Date.now() };
   console.log(`[TXN START] trans_id=${transId} on ${node}`);
 }
 
-/**
- * Commit a transaction (mark as committed/remove from active)
- */
+
 function commitTransaction(transId) {
   if (transId && activeTransactions[transId]) {
     delete activeTransactions[transId];
@@ -195,11 +163,7 @@ function commitTransaction(transId) {
   }
 }
 
-// Simple write replication utility (eager, same query forwarded to other nodes)
-/**
- * Simple replication: forward write query to appropriate nodes
- * No locking needed - just execute the query
- */
+
 async function replicateWrite(sourceNode, query) {
   const upper = query.trim().toUpperCase();
   if (!upper.startsWith('UPDATE') && !upper.startsWith('INSERT') && !upper.startsWith('DELETE')) {
@@ -231,19 +195,16 @@ async function replicateWrite(sourceNode, query) {
     if (recordDate) {
       targets.push(recordDate < FRAG_BOUNDARY ? 'node1' : 'node2');
     } else {
-      targets.push('node1', 'node2'); // Unknown date - replicate to both
+      targets.push('node1', 'node2'); 
     }
   } else {
-    // Fragments replicate back to master
     targets.push('node0');
   }
 
   console.log(`[REPLICATION] ${sourceNode} → [${targets.join(', ')}] trans_id=${transId}`);
 
-  // Execute replication to each target
   const results = [];
   for (const target of targets) {
-    // Pre-check: Skip replication if target is marked as failed
     if (simulatedFailures[target]) {
       console.log(`[REPLICATION SKIP] ${sourceNode} → ${target}: Node marked as failed (simulatedFailures[${target}] = true)`);
       const entry = {
@@ -257,7 +218,7 @@ async function replicateWrite(sourceNode, query) {
       };
       replicationQueue.push(entry);
       results.push(entry);
-      continue; // Skip to next target - DO NOT execute query
+      continue; 
     }
 
     // If we get here, the node is NOT marked as failed
@@ -292,11 +253,7 @@ async function replicateWrite(sourceNode, query) {
   return results;
 }
 
-/**
- * Replay failed replications to a recovered node
- * @param {string} recoveredNode - The node that has been recovered (e.g., 'node0')
- * @returns {Object} Summary of replay results
- */
+// Replay failed replications for a recovered node
 async function replayFailedReplications(recoveredNode) {
   const failedReplications = replicationQueue.filter(
     entry => entry.target === recoveredNode && entry.status === 'failed'
@@ -319,7 +276,6 @@ async function replayFailedReplications(recoveredNode) {
       await conn.query(entry.query);
       conn.release();
       
-      // Update entry status
       entry.status = 'replicated';
       entry.recoveryTime = new Date();
       entry.error = undefined;
@@ -358,7 +314,6 @@ async function initializePools() {
     
     console.log('Connection pools initialized');
     
-    // Test all connections
     await testAllConnections();
   } catch (error) {
     console.error('Error initializing pools:', error);
@@ -382,7 +337,6 @@ async function testAllConnections() {
       `);
       
       if (tableInfo[0].count > 0) {
-        // Get row count
         const [rowCount] = await connection.query('SELECT COUNT(*) as total FROM trans');
         console.log(`[OK] ${node.toUpperCase()}: Connected | trans table exists with ${rowCount[0].total} rows`);
       } else {
@@ -415,7 +369,6 @@ async function checkNodeHealth() {
   }
 }
 
-// Routes
 
 // 1. Health Check
 app.get('/health', (req, res) => {
@@ -425,7 +378,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Health Check (API version)
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'Backend is running',
@@ -453,12 +405,17 @@ app.post('/api/query/execute', async (req, res) => {
 
   const transactionId = uuidv4();
 
-  // Check if the target node is marked as failed
-  // Note: We still allow operations on the target node itself to test partial failures
-  // Replication to failed nodes will be blocked at the replication level
   if (simulatedFailures[node]) {
-    console.log(`[WARNING] Attempting operation on failed node ${node} (simulated failure) - will proceed but replication may fail`);
+    console.log(`[BLOCKED] Cannot execute query on killed node ${node} (simulated failure)`);
+    return res.status(503).json({ 
+      error: `Node ${node} is offline - operations not allowed`,
+      nodeStatus: 'offline',
+      message: 'Please select a different node or recover this node first',
+      transactionId
+    });
   }
+
+  console.log(`[QUERY] Executing on ${node} (node is online)`);
 
   const logEntry = {
     transactionId,
@@ -477,14 +434,11 @@ app.post('/api/query/execute', async (req, res) => {
   try {
     connection = await pools[node].getConnection();
     
-    // SIMPLE TRANSACTION TRACKING (Custom implementation)
     if (isWrite && lockTransId) {
-      // Start transaction - marks it as active globally (waits if already active)
       await startTransaction(lockTransId, node);
       console.log(`[TXN START] trans_id=${lockTransId} on ${node} (${effectiveIsolation})`);
     }
     
-    // For reads: Wait for uncommitted transactions (except READ_UNCOMMITTED)
     if (!isWrite && lockTransId) {
       await canReadProceed(lockTransId, effectiveIsolation);
     }
@@ -520,9 +474,8 @@ app.post('/api/query/execute', async (req, res) => {
     logEntry.endTime = new Date();
     logEntry.error = error.message;
     
-    // Abort transaction on error
     if (lockTransId) {
-      commitTransaction(lockTransId); // Clean up active transaction
+      commitTransaction(lockTransId); 
       console.log(`[TXN ABORT] trans_id=${lockTransId} on ${node}`);
     }
     
@@ -556,7 +509,6 @@ app.get('/api/replication/queue', (req, res) => {
   });
 });
 
-// 6b. Get Active Transactions (for debugging concurrency control)
 app.get('/api/locks/status', (req, res) => {
   const activeTxns = Object.keys(activeTransactions).map(transId => ({
     transactionId: transId,
@@ -576,7 +528,6 @@ app.post('/api/nodes/kill', (req, res) => {
   const { node } = req.body;
   
   if (nodeStatus[node]) {
-    // Mark node for simulated failure
     simulatedFailures[node] = true;
     nodeStatus[node].status = 'offline';
     nodeStatus[node].failureTime = new Date();
@@ -598,16 +549,13 @@ app.post('/api/nodes/recover', async (req, res) => {
   
   try {
     if (nodeStatus[node]) {
-      // Remove simulated failure flag
       simulatedFailures[node] = false;
       delete nodeStatus[node].failureTime;
       
       console.log(`[RECOVERY] RECOVERING NODE: ${node} - Processing missed transactions...`);
       
-      // Process failed replications for this recovered node
       const replayResults = await replayFailedReplications(node);
       
-      // Check health after removing failure simulation
       await checkNodeHealth();
       
       res.json({
@@ -662,10 +610,8 @@ app.get('/api/data/:node', async (req, res) => {
     let orderClause = 'ORDER BY newdate ASC';
     let params = [table];
 
-    // Build query based on filter type
     switch (filter) {
       case 'recent_updates':
-        // Get recently modified records (last 10 minutes worth of trans_ids from transaction log)
         const recentTransIds = getRecentlyUpdatedTransIds();
         if (recentTransIds.length > 0) {
           const placeholders = recentTransIds.map(() => '?').join(',');
@@ -695,8 +641,7 @@ app.get('/api/data/:node', async (req, res) => {
         orderClause = 'ORDER BY balance DESC';
         break;
         
-      default: // 'all'
-        // No additional filtering
+      default:
         break;
     }
     
@@ -733,12 +678,10 @@ app.get('/api/data/:node', async (req, res) => {
   }
 });
 
-// Helper function to get recently updated trans_ids from transaction log
 function getRecentlyUpdatedTransIds() {
   const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
   const recentTransIds = [];
   
-  // Extract trans_ids from recent write operations in transaction log
   transactionLog.forEach(log => {
     if (log.endTime && log.endTime > tenMinutesAgo && isWriteQuery(log.query)) {
       const transId = parseTransId(log.query);
@@ -762,13 +705,11 @@ app.post('/api/logs/clear', (req, res) => {
   });
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: 'Internal server error', details: err.message });
 });
 
-// Initialize and start server
 async function start() {
   await initializePools();
   
