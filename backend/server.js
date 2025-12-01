@@ -596,6 +596,7 @@ app.post('/api/query/execute', async (req, res) => {
   }
 
   const transactionId = uuidv4();
+  const effectiveIsolation = isolationLevel || 'READ_COMMITTED';
 
   // Check if the target node is marked as failed
   // Note: We still allow operations on the target node itself to test partial failures
