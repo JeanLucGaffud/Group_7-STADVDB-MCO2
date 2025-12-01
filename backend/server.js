@@ -10,7 +10,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://ccscloud.dlsu.edu.ph',
+    'https://ccscloud.dlsu.edu.ph'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Database Configuration
