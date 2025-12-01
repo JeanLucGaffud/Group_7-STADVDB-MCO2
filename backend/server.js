@@ -24,6 +24,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Prevent caching for all API routes
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  next();
+});
+
 // Database Configuration
 const dbConfig = {
   node0: {
@@ -35,6 +41,7 @@ const dbConfig = {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    connectTimeout: 3000,
     authPlugins: {
       mysql_clear_password: () => () => process.env.DB_PASSWORD_NODE0 || ''
     }
@@ -48,6 +55,7 @@ const dbConfig = {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    connectTimeout: 3000,
     authPlugins: {
       mysql_clear_password: () => () => process.env.DB_PASSWORD_NODE1 || ''
     }
@@ -61,6 +69,7 @@ const dbConfig = {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    connectTimeout: 3000,
     authPlugins: {
       mysql_clear_password: () => () => process.env.DB_PASSWORD_NODE2 || ''
     }
@@ -443,7 +452,7 @@ async function testAllConnections() {
 async function checkNodeHealth() {
   const nodes = ['node0', 'node1', 'node2'];
   
-  for (const node of nodes) {
+  const checks = nodes.map(async (node) => {
     // If node is simulating failure, don't check actual connectivity
     if (simulatedFailures[node]) {
       nodeStatus[node] = { 
@@ -452,7 +461,7 @@ async function checkNodeHealth() {
         error: 'Simulated node failure',
         failureTime: nodeStatus[node].failureTime || new Date()
       };
-      continue;
+      return;
     }
 
     try {
@@ -463,7 +472,9 @@ async function checkNodeHealth() {
     } catch (error) {
       nodeStatus[node] = { status: 'offline', lastCheck: new Date(), error: error.message };
     }
-  }
+  });
+
+  await Promise.all(checks);
 }
 
 // Routes
