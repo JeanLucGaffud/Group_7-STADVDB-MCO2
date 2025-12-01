@@ -225,21 +225,52 @@ async function replicateWrite(sourceNode, query, isolationLevel) {
   if (!isWrite) return [];
   // Fragmentation rule:
   // node0: all rows
-  // node1: trans newdate < 1997-01-01
-  // node2: trans newdate >= 1997-01-01
+  // node1: trans trans_date < 1997-01-01
+  // node2: trans trans_date >= 1997-01-01
   // For writes originating from node0 replicate ONLY to the correct fragment.
   // For writes from a fragment replicate back to node0 (and validate the date range).
   const FRAG_BOUNDARY = new Date('1997-01-01T00:00:00Z');
 
-  // Attempt to extract trans_id for UPDATE/DELETE pattern: WHERE trans_id = <id>
+  // Attempt to extract trans_id 
   let transId = null;
-  const idMatch = /WHERE\s+trans_id\s*=\s*(\d+)/i.exec(query);
-  if (idMatch) {
-    transId = parseInt(idMatch[1], 10);
+  
+  // For INSERT: extract from VALUES clause - first number after VALUES (
+  if (upper.startsWith('INSERT')) {
+    const insertIdMatch = /VALUES\s*\(\s*(\d+)/i.exec(query);
+    if (insertIdMatch) {
+      transId = parseInt(insertIdMatch[1], 10);
+      console.log(`🔑 Extracted trans_id from INSERT: ${transId}`);
+    }
+  }
+  // For UPDATE/DELETE: extract from WHERE clause
+  else {
+    const idMatch = /WHERE\s+trans_id\s*=\s*(\d+)/i.exec(query);
+    if (idMatch) {
+      transId = parseInt(idMatch[1], 10);
+    }
   }
 
   let recordDate = null;
-  if (transId != null) {
+  
+  // For INSERT, extract date from the query itself
+  if (upper.startsWith('INSERT')) {
+    // Try multiple patterns to extract date from INSERT statement
+    // Pattern 1: Find date in VALUES clause (most reliable for our INSERT format)
+    const valuesMatch = /VALUES\s*\([^)]*'(\d{4}-\d{2}-\d{2})'[^)]*\)/i.exec(query);
+    if (valuesMatch) {
+      recordDate = new Date(valuesMatch[1]);
+      console.log(`📅 Extracted date from INSERT: ${valuesMatch[1]} => ${recordDate}`);
+    } else {
+      // Pattern 2: Find any date-like string after newdate/trans_date column
+      const dateMatch = /(?:trans_date|newdate)[^']*'([^']+)'/i.exec(query);
+      if (dateMatch) {
+        recordDate = new Date(dateMatch[1]);
+        console.log(`📅 Extracted date (fallback): ${dateMatch[1]} => ${recordDate}`);
+      }
+    }
+  }
+  // For UPDATE/DELETE, fetch date from database
+  else if (transId != null) {
     try {
       const conn = await pools[sourceNode].getConnection();
       const [rows] = await conn.query('SELECT newdate FROM trans WHERE trans_id = ?', [transId]);
@@ -251,17 +282,22 @@ async function replicateWrite(sourceNode, query, isolationLevel) {
       // ignore date fetch failure, proceed with broad replication
     }
   }
+  
+  console.log(`🔍 Replication decision - Source: ${sourceNode}, Date: ${recordDate}, Boundary: ${FRAG_BOUNDARY}`);
 
   const targets = [];
   if (sourceNode === 'node0') {
     if (recordDate) {
       if (recordDate < FRAG_BOUNDARY) {
         targets.push('node1');
+        console.log(`✅ Replicating to node1 (pre-1997): ${recordDate} < ${FRAG_BOUNDARY}`);
       } else {
         targets.push('node2');
+        console.log(`✅ Replicating to node2 (1997+): ${recordDate} >= ${FRAG_BOUNDARY}`);
       }
     } else {
       // Fallback if we cannot determine date: replicate to both fragments
+      console.log(`⚠️  Could not determine date, replicating to both fragments`);
       targets.push('node1', 'node2');
     }
   } else {
@@ -307,6 +343,8 @@ async function replicateWrite(sourceNode, query, isolationLevel) {
   }
   
   // Step 2: Replicate to targets (only those we successfully locked)
+  console.log(`📤 Starting replication to targets: [${lockResult.lockedNodes.join(', ')}]`);
+  
   for (const tgt of lockResult.lockedNodes) {
     if (!pools[tgt]) continue;
     const entry = { id: uuidv4(), source: sourceNode, target: tgt, query, status: 'pending', time: new Date(), fragmentRouting: { transId, recordDate } };
@@ -316,6 +354,7 @@ async function replicateWrite(sourceNode, query, isolationLevel) {
         throw new Error(`Node ${tgt} is offline (simulated failure)`);
       }
       
+      console.log(`🔄 Replicating to ${tgt}...`);
       const conn = await pools[tgt].getConnection();
       if (isolationLevel) {
         const iso = String(isolationLevel).replace(/_/g, ' ');
@@ -324,9 +363,12 @@ async function replicateWrite(sourceNode, query, isolationLevel) {
       await conn.query(query);
       conn.release();
       entry.status = 'replicated';
+      console.log(`✅ Successfully replicated to ${tgt}`);
     } catch (e) {
       entry.status = 'failed';
       entry.error = e.message;
+      console.error(`❌ Replication to ${tgt} FAILED: ${e.message}`);
+      console.error(`Query was: ${query}`);
     }
     replicationQueue.push(entry);
     results.push(entry);

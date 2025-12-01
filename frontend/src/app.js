@@ -386,6 +386,292 @@ function showSuccessMessage(message) {
 
 export { showErrorMessage, showSuccessMessage };
 
+// ===== NEW CRUD OPERATIONS =====
+
+// Tab switching
+window.showOperationTab = function(tabName) {
+  // Hide all panels
+  document.querySelectorAll('.operation-panel').forEach(panel => {
+    panel.classList.remove('active');
+  });
+  
+  // Remove active from all tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Show selected panel and activate tab
+  document.getElementById(`${tabName}Operation`).classList.add('active');
+  document.getElementById(`${tabName}Tab`).classList.add('active');
+};
+
+// INSERT Operation
+window.executeInsert = async function() {
+  const transId = document.getElementById('insertTransId').value;
+  const accountId = document.getElementById('insertAccountId').value;
+  const date = document.getElementById('insertDate').value;
+  const amount = document.getElementById('insertAmount').value;
+  const balance = document.getElementById('insertBalance').value;
+  
+  if (!transId || !accountId || !date || !amount || !balance) {
+    showErrorMessage('Please fill in all required fields');
+    return;
+  }
+  
+  const query = `INSERT INTO trans (trans_id, account_id, newdate, amount, balance) VALUES (${transId}, ${accountId}, '${date}', ${amount}, ${balance})`;
+  
+  try {
+    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    document.getElementById('insertResult').innerHTML = `
+      <div class="success-box">
+        <strong>✅ Insert Successful</strong><br>
+        Inserted to Node 0 (Master) and replicated to ${date < '1997-01-01' ? 'Node 1 (Pre-1997)' : 'Node 2 (1997+)'}<br>
+        Trans ID: ${transId}, Account: ${accountId}, Date: ${date}, Amount: ${amount}, Balance: ${balance}
+      </div>
+    `;
+    
+    // Clear form
+    document.getElementById('insertTransId').value = '';
+    document.getElementById('insertAccountId').value = '';
+    document.getElementById('insertDate').value = '';
+    document.getElementById('insertAmount').value = '';
+    document.getElementById('insertBalance').value = '';
+    
+    await refreshTransactionLogs();
+  } catch (error) {
+    document.getElementById('insertResult').innerHTML = `
+      <div class="error-box">❌ Insert Failed: ${error.message}</div>
+    `;
+  }
+};
+
+// UPDATE Operation - Load current record
+window.loadRecordForUpdate = async function() {
+  const transId = document.getElementById('updateTransId').value;
+  
+  if (!transId) {
+    showErrorMessage('Please enter a Transaction ID');
+    return;
+  }
+  
+  const query = `SELECT * FROM trans WHERE trans_id = ${transId}`;
+  
+  try {
+    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    if (response.data.results && response.data.results.length > 0) {
+      const record = response.data.results[0];
+      document.getElementById('currentRecordDisplay').style.display = 'block';
+      document.getElementById('currentRecordDetails').innerHTML = `
+        <strong>Trans ID:</strong> ${record.trans_id}<br>
+        <strong>Account ID:</strong> ${record.account_id}<br>
+        <strong>Date:</strong> ${record.trans_date}<br>
+        <strong>Current Amount:</strong> ${record.amount}<br>
+        <strong>Current Balance:</strong> ${record.balance}
+      `;
+      
+      // Pre-fill all update fields
+      document.getElementById('updateAccountId').value = record.account_id;
+      document.getElementById('updateDate').value = record.trans_date;
+      document.getElementById('updateAmount').value = record.amount;
+      document.getElementById('updateBalance').value = record.balance;
+    } else {
+      showErrorMessage('Record not found');
+    }
+  } catch (error) {
+    showErrorMessage('Error loading record: ' + error.message);
+  }
+};
+
+// UPDATE Operation - Execute
+window.executeUpdate = async function() {
+  const transId = document.getElementById('updateTransId').value;
+  const accountId = document.getElementById('updateAccountId').value;
+  const date = document.getElementById('updateDate').value;
+  const amount = document.getElementById('updateAmount').value;
+  const balance = document.getElementById('updateBalance').value;
+  
+  if (!transId) {
+    showErrorMessage('Please enter a Transaction ID');
+    return;
+  }
+  
+  if (!accountId && !date && !amount && !balance) {
+    showErrorMessage('Please provide at least one field to update');
+    return;
+  }
+  
+  let updates = [];
+  if (accountId) updates.push(`account_id = ${accountId}`);
+  if (date) updates.push(`newdate = '${date}'`);
+  if (amount) updates.push(`amount = ${amount}`);
+  if (balance) updates.push(`balance = ${balance}`);
+  
+  const query = `UPDATE trans SET ${updates.join(', ')} WHERE trans_id = ${transId}`;
+  
+  try {
+    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    
+    let fragmentNote = '';
+    if (date) {
+      fragmentNote = date < '1997-01-01' ? 
+        '<br><strong>Note:</strong> Record moved to Node 1 fragment (Pre-1997)' : 
+        '<br><strong>Note:</strong> Record moved to Node 2 fragment (1997+)';
+    }
+    
+    document.getElementById('updateResult').innerHTML = `
+      <div class="success-box">
+        <strong>✅ Update Successful</strong><br>
+        Updated Trans ID: ${transId}<br>
+        ${accountId ? `New Account ID: ${accountId}<br>` : ''}
+        ${date ? `New Date: ${date}<br>` : ''}
+        ${amount ? `New Amount: ${amount}<br>` : ''}
+        ${balance ? `New Balance: ${balance}<br>` : ''}
+        Changes replicated to appropriate fragment node.${fragmentNote}
+      </div>
+    `;
+    
+    // Clear the form fields
+    document.getElementById('updateAccountId').value = '';
+    document.getElementById('updateDate').value = '';
+    document.getElementById('updateAmount').value = '';
+    document.getElementById('updateBalance').value = '';
+    document.getElementById('currentRecordDisplay').style.display = 'none';
+    
+    await refreshTransactionLogs();
+  } catch (error) {
+    document.getElementById('updateResult').innerHTML = `
+      <div class="error-box">❌ Update Failed: ${error.message}</div>
+    `;
+  }
+};
+
+// DELETE Operation - Load record for preview
+window.loadRecordForDelete = async function() {
+  const transId = document.getElementById('deleteTransId').value;
+  
+  if (!transId) {
+    showErrorMessage('Please enter a Transaction ID');
+    return;
+  }
+  
+  const query = `SELECT * FROM trans WHERE trans_id = ${transId}`;
+  
+  try {
+    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    if (response.data.results && response.data.results.length > 0) {
+      const record = response.data.results[0];
+      document.getElementById('deleteRecordDisplay').style.display = 'block';
+      document.getElementById('deleteRecordDetails').innerHTML = `
+        <strong>Trans ID:</strong> ${record.trans_id}<br>
+        <strong>Account ID:</strong> ${record.account_id}<br>
+        <strong>Date:</strong> ${record.newdate}<br>
+        <strong>Amount:</strong> $${record.amount}<br>
+        <strong>Balance:</strong> $${record.balance}
+      `;
+    } else {
+      showErrorMessage('Record not found');
+      document.getElementById('deleteRecordDisplay').style.display = 'none';
+    }
+  } catch (error) {
+    showErrorMessage('Error loading record: ' + error.message);
+  }
+};
+
+// DELETE Operation - Execute
+window.executeDelete = async function() {
+  const transId = document.getElementById('deleteTransId').value;
+  const confirmed = document.getElementById('deleteConfirm').checked;
+  
+  if (!transId) {
+    showErrorMessage('Please enter a Transaction ID');
+    return;
+  }
+  
+  if (!confirmed) {
+    showErrorMessage('Please confirm deletion by checking the checkbox');
+    return;
+  }
+  
+  const query = `DELETE FROM trans WHERE trans_id = ${transId}`;
+  
+  try {
+    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    document.getElementById('deleteResult').innerHTML = `
+      <div class="success-box">
+        <strong>✅ Delete Successful</strong><br>
+        Deleted Trans ID: ${transId} from Node 0 (Master)<br>
+        Changes replicated to appropriate fragment node.
+      </div>
+    `;
+    
+    // Clear form
+    document.getElementById('deleteTransId').value = '';
+    document.getElementById('deleteConfirm').checked = false;
+    document.getElementById('deleteRecordDisplay').style.display = 'none';
+    
+    await refreshTransactionLogs();
+  } catch (error) {
+    document.getElementById('deleteResult').innerHTML = `
+      <div class="error-box">❌ Delete Failed: ${error.message}</div>
+    `;
+  }
+};
+
+// REPORTS Operation - Generate
+window.generateReport = async function() {
+  const output = document.getElementById('reportOutput');
+  let reportText = '';
+  
+  try {
+    const pre1997Query = `
+      SELECT 
+        COUNT(*) as transaction_count,
+        SUM(amount) as total_amount
+      FROM trans
+      WHERE newdate < '1997-01-01'
+    `;
+    
+    const post1997Query = `
+      SELECT 
+        COUNT(*) as transaction_count,
+        SUM(amount) as total_amount
+      FROM trans
+      WHERE newdate >= '1997-01-01'
+    `;
+    
+    const pre1997Resp = await executeQuery('node0', pre1997Query, 'READ_COMMITTED');
+    const post1997Resp = await executeQuery('node0', post1997Query, 'READ_COMMITTED');
+    
+    const pre1997 = pre1997Resp.data.results[0];
+    const post1997 = post1997Resp.data.results[0];
+    
+    reportText = `
+==========================================
+  TRANSACTION AMOUNT REPORT
+==========================================
+Generated: ${new Date().toLocaleString()}
+==========================================
+
+Transactions < 1997
+  Count: ${pre1997.transaction_count}
+  Total: $${parseFloat(pre1997.total_amount || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+
+Transactions >= 1997
+  Count: ${post1997.transaction_count}
+  Total: $${parseFloat(post1997.total_amount || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+
+==========================================
+`;
+    
+    output.textContent = reportText;
+    output.style.display = 'block';
+  } catch (error) {
+    showErrorMessage('Report Generation Failed: ' + error.message);
+  }
+};
+
+// ===== END NEW CRUD OPERATIONS =====
+
 // --- Simple Case 1 helpers (concurrent reads) ---
 export async function runConcurrentReads(nodeA, nodeB, recordId, isolationLevel) {
   const id = Number(recordId);

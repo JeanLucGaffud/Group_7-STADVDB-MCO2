@@ -70,36 +70,141 @@
         </div>
       </section>
 
-      <!-- Center: Query Execution -->
+      <!-- Center: Database Operations -->
       <section class="main-content">
+        
+        <!-- Operation Tabs -->
         <div class="section-card">
-          <h2>💾 Execute Query</h2>
-          
-          <div class="form-group">
-            <label>Target Node</label>
-            <select id="selectNode" onchange="updateSelectedNode(this.value)">
-              <option value="node0">Node 0 (Master)</option>
-              <option value="node1">Node 1 (Fragment A)</option>
-              <option value="node2">Node 2 (Fragment B)</option>
-            </select>
+          <div class="operation-tabs">
+            <button onclick="showOperationTab('insert')" class="tab-btn active" id="insertTab">INSERT</button>
+            <button onclick="showOperationTab('update')" class="tab-btn" id="updateTab">UPDATE</button>
+            <button onclick="showOperationTab('delete')" class="tab-btn" id="deleteTab">DELETE</button>
+            <button onclick="showOperationTab('reports')" class="tab-btn" id="reportsTab">REPORTS</button>
           </div>
 
-          <div class="form-group">
-            <label>Isolation Level</label>
-            <select id="isolationLevel" onchange="updateIsolationLevel(this.value)">
-              <option value="READ_UNCOMMITTED">Read Uncommitted</option>
-              <option value="READ_COMMITTED" selected>Read Committed</option>
-              <option value="REPEATABLE_READ">Repeatable Read</option>
-              <option value="SERIALIZABLE">Serializable</option>
-            </select>
+          <!-- INSERT Operation -->
+          <div id="insertOperation" class="operation-panel active">
+            <h2>Insert New Transaction</h2>
+            <p class="info-text">All inserts are written to Node 0 (Master) and automatically replicated to the appropriate fragment.</p>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Transaction ID <span class="required">*</span></label>
+                <input type="number" id="insertTransId" class="form-control" placeholder="e.g., 50001" required>
+                <small>Must be unique</small>
+              </div>
+              <div class="form-group">
+                <label>Account ID <span class="required">*</span></label>
+                <input type="number" id="insertAccountId" class="form-control" placeholder="e.g., 2378" required>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Transaction Date <span class="required">*</span></label>
+                <input type="date" id="insertDate" class="form-control" required>
+                <small>Pre-1997 → Node 1 | 1997+ → Node 2</small>
+              </div>
+              <div class="form-group">
+                <label>Amount <span class="required">*</span></label>
+                <input type="number" id="insertAmount" class="form-control" step="0.01" placeholder="e.g., 500.00" required>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Balance <span class="required">*</span></label>
+                <input type="number" id="insertBalance" class="form-control" step="0.01" placeholder="e.g., 1500.00" required>
+              </div>
+              <div class="form-group">
+                <!-- Empty space for layout balance -->
+              </div>
+            </div>
+            
+            <button onclick="executeInsert()" class="btn btn-success">Insert Record</button>
+            <div id="insertResult" class="operation-result"></div>
           </div>
 
-          <div class="form-group">
-            <label>SQL Query</label>
-            <textarea id="queryInput" placeholder="Enter SQL query here..." rows="6"></textarea>
+          <!-- UPDATE Operation -->
+          <div id="updateOperation" class="operation-panel">
+            <h2>Update Existing Transaction</h2>
+            <p class="info-text">Updates are executed on Node 0 (Master) and replicated to fragments.</p>
+            
+            <div class="form-group">
+              <label>Transaction ID to Update <span class="required">*</span></label>
+              <input type="number" id="updateTransId" class="form-control" placeholder="Enter trans_id" required>
+              <button onclick="loadRecordForUpdate()" class="btn-small info" style="margin-top: 5px;">Load Current Values</button>
+            </div>
+            
+            <div id="currentRecordDisplay" class="info-box" style="display:none; margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px;">
+              <strong>Current Record:</strong>
+              <div id="currentRecordDetails"></div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Account ID</label>
+                <input type="number" id="updateAccountId" class="form-control" placeholder="Leave blank to keep current">
+              </div>
+              <div class="form-group">
+                <label>Transaction Date</label>
+                <input type="date" id="updateDate" class="form-control">
+                <small>Changing date may move record to different fragment</small>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Amount</label>
+                <input type="number" id="updateAmount" class="form-control" step="0.01" placeholder="Leave blank to keep current">
+              </div>
+              <div class="form-group">
+                <label>Balance</label>
+                <input type="number" id="updateBalance" class="form-control" step="0.01" placeholder="Leave blank to keep current">
+              </div>
+            </div>
+            
+            <button onclick="executeUpdate()" class="btn btn-primary">Update Record</button>
+            <div id="updateResult" class="operation-result"></div>
           </div>
 
-          <button onclick="executeQuery()" class="btn-full primary">Execute Query</button>
+          <!-- DELETE Operation -->
+          <div id="deleteOperation" class="operation-panel">
+            <h2>Delete Transaction</h2>
+            <p class="warning-text">⚠️ Deletion is executed on Node 0 (Master) and replicated to fragments. This action cannot be undone.</p>
+            
+            <div class="form-group">
+              <label>Transaction ID to Delete <span class="required">*</span></label>
+              <input type="number" id="deleteTransId" class="form-control" placeholder="Enter trans_id" required>
+              <button onclick="loadRecordForDelete()" class="btn-small info" style="margin-top: 5px;">Preview Record</button>
+            </div>
+            
+            <div id="deleteRecordDisplay" class="info-box" style="display:none; margin: 10px 0; padding: 10px; background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger-color);">
+              <strong>⚠️ Record to be Deleted:</strong>
+              <div id="deleteRecordDetails"></div>
+            </div>
+            
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="deleteConfirm">
+                <span style="color: var(--danger-color); font-weight: bold;">I confirm I want to permanently delete this transaction</span>
+              </label>
+            </div>
+            
+            <button onclick="executeDelete()" class="btn btn-danger">Delete Record</button>
+            <div id="deleteResult" class="operation-result"></div>
+          </div>
+
+          <!-- REPORTS Operation -->
+          <div id="reportsOperation" class="operation-panel">
+            <h2>Transaction Amount Report</h2>
+            <p class="info-text">View total transaction amounts comparing pre-1997 vs 1997+ periods.</p>
+            
+            <button onclick="generateReport()" class="btn btn-warning">Generate Report</button>
+            <div id="reportResult" class="operation-result">
+              <pre id="reportOutput" style="display:none; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 5px; margin-top: 15px; white-space: pre-wrap; font-family: monospace; font-size: 13px;"></pre>
+            </div>
+          </div>
         </div>
 
         <!-- Transaction Logs -->

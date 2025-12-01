@@ -399,6 +399,155 @@ body {
   top: 0;
 }
 
+/* Operation Tabs */
+.operation-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+}
+
+.tab-btn:hover {
+  color: var(--text-color);
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.tab-btn.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+/* Operation Panels */
+.operation-panel {
+  display: none;
+  padding: 20px;
+  background-color: rgba(30, 41, 59, 0.3);
+  border-radius: var(--border-radius);
+  margin-top: 10px;
+}
+
+.operation-panel.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.operation-panel h2 {
+  margin-bottom: 15px;
+  color: var(--text-color);
+  font-size: 1.5em;
+}
+
+/* Form Rows */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+/* Result Boxes */
+.operation-result {
+  margin-top: 20px;
+  min-height: 50px;
+}
+
+.success-box {
+  padding: 15px;
+  background-color: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid var(--success-color);
+  border-radius: 4px;
+  color: var(--success-color);
+  animation: slideIn 0.3s ease;
+}
+
+.error-box {
+  padding: 15px;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid var(--danger-color);
+  border-radius: 4px;
+  color: var(--danger-color);
+  animation: slideIn 0.3s ease;
+}
+
+.info-box {
+  padding: 15px;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left: 4px solid var(--info-color);
+  border-radius: 4px;
+  color: var(--info-color);
+}
+
+.info-text {
+  padding: 10px;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-radius: 4px;
+  color: var(--info-color);
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.warning-text {
+  padding: 10px;
+  background-color: rgba(245, 158, 11, 0.1);
+  border-radius: 4px;
+  color: var(--warning-color);
+  font-size: 0.9em;
+  margin-bottom: 15px;
+}
+
+.required {
+  color: var(--danger-color);
+  font-weight: bold;
+}
+
+/* Checkbox Label */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Data Table Container */
+.data-table-container {
+  max-height: 500px;
+  overflow-y: auto;
+  border-radius: var(--border-radius);
+}
+
+.data-table-container table {
+  width: 100%;
+  background-color: rgba(30, 41, 59, 0.5);
+}
+
+.data-table-container tbody tr:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
 .data-table tr:hover {
   background-color: rgba(37, 99, 235, 0.1);
 }
