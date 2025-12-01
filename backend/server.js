@@ -493,6 +493,64 @@ async function replicateWrite(sourceNode, query) {
   return results;
 }
 
+/**
+ * Replay failed replications to a recovered node
+ * @param {string} recoveredNode - The node that has been recovered (e.g., 'node1')
+ * @returns {Object} Summary of replay results
+ */
+async function replayFailedReplications(recoveredNode) {
+  // Find all failed replications where this node is the target
+  const failedReplications = replicationQueue.filter(
+    entry => entry.target === recoveredNode && entry.status === 'failed'
+  );
+  
+  console.log(`[RECOVERY] Found ${failedReplications.length} failed replications targeting ${recoveredNode}`);
+  
+  const results = {
+    total: failedReplications.length,
+    success: 0,
+    failed: 0,
+    details: []
+  };
+  
+  for (const entry of failedReplications) {
+    try {
+      console.log(`[RECOVERY] Replaying: ${entry.source} → ${entry.target} | ${entry.query.substring(0, 60)}...`);
+      
+      const conn = await pools[recoveredNode].getConnection();
+      await conn.query(entry.query);
+      conn.release();
+      
+      // Update entry status
+      entry.status = 'replicated';
+      entry.recoveryTime = new Date();
+      entry.error = undefined;
+      
+      results.success++;
+      results.details.push({
+        id: entry.id,
+        query: entry.query.substring(0, 100),
+        status: 'success'
+      });
+      
+      console.log(`[RECOVERY] ✓ Successfully replayed transaction ${entry.id}`);
+    } catch (error) {
+      results.failed++;
+      results.details.push({
+        id: entry.id,
+        query: entry.query.substring(0, 100),
+        status: 'failed',
+        error: error.message
+      });
+      
+      console.log(`[RECOVERY] ✗ Failed to replay transaction ${entry.id}: ${error.message}`);
+    }
+  }
+  
+  console.log(`[RECOVERY] Summary for ${recoveredNode}: ${results.success} succeeded, ${results.failed} failed out of ${results.total} total`);
+  return results;
+}
+
 // Initialize connection pools
 async function initializePools() {
   try {
@@ -598,13 +656,20 @@ app.post('/api/query/execute', async (req, res) => {
   const transactionId = uuidv4();
   const effectiveIsolation = isolationLevel || 'READ_COMMITTED';
 
-  // Check if the target node is marked as failed
-  // Note: We still allow operations on the target node itself to test partial failures
-  // Replication to failed nodes will be blocked at the replication level
+  // Check if the TARGET node (where we're executing) is marked as failed
+  // Block operations directly on killed nodes - this is critical for simulating node failure
   if (simulatedFailures[node]) {
-    console.log(`[WARNING] Attempting operation on failed node ${node} (simulated failure) - will proceed but replication may fail`);
+    console.log(`[BLOCKED] Cannot execute query on killed node ${node} (simulated failure)`);
+    return res.status(503).json({ 
+      error: `Node ${node} is offline - operations not allowed`,
+      nodeStatus: 'offline',
+      message: 'Please select a different node or recover this node first',
+      transactionId
+    });
   }
 
+  console.log(`[QUERY] Executing on ${node} (node is online)`);
+  
   const logEntry = {
     transactionId,
     node,
@@ -803,14 +868,20 @@ app.post('/api/nodes/recover', async (req, res) => {
       simulatedFailures[node] = false;
       delete nodeStatus[node].failureTime;
       
-      console.log(`[RECOVERY] RECOVERING NODE: ${node} - Simulated failure removed`);
+      console.log(`[RECOVERY] RECOVERING NODE: ${node} - Processing missed transactions...`);
+      
+      // Replay all failed replications that targeted this node
+      const replayResults = await replayFailedReplications(node);
       
       // Check health after removing failure simulation
       await checkNodeHealth();
       
       res.json({
         message: `${node} recovery completed`,
-        nodeStatus: nodeStatus[node]
+        nodeStatus: nodeStatus[node],
+        replayedTransactions: replayResults.success,
+        failedReplays: replayResults.failed,
+        totalProcessed: replayResults.total
       });
     } else {
       res.status(400).json({ error: 'Invalid node' });
