@@ -15,7 +15,10 @@ app.use(cors({
     'http://localhost:3000',
     'http://localhost:5173',
     'http://ccscloud.dlsu.edu.ph',
-    'https://ccscloud.dlsu.edu.ph'
+    'https://ccscloud.dlsu.edu.ph',
+    'http://ccscloud.dlsu.edu.ph:60109',
+    'http://ccscloud.dlsu.edu.ph:60110',
+    'http://ccscloud.dlsu.edu.ph:60111'
   ],
   credentials: true
 }));
