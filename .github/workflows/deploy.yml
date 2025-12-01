@@ -41,6 +41,8 @@ jobs:
             echo "Building Frontend..."
             cd frontend
             npm install
+            # INJECT PRODUCTION API URL HERE:
+            export VITE_API_URL="http://ccscloud.dlsu.edu.ph:5000/api"
             npm run build
             cd ..
             
