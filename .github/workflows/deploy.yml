@@ -21,25 +21,33 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ matrix.port }}
           script: |
-            # 1. Navigate to project
-            cd /var/www/db-frontend
+            # --- CONFIGURATION ---
+            REPO_DIR=~/app-repo
+            PUBLIC_DIR=/var/www/db-frontend
             
-            # 2. Pull latest changes
+            # --- DEPLOYMENT ---
+            
+            # 1. Update Code
+            cd $REPO_DIR
             git pull origin main
             
-            # 3. Backend Setup
+            # 2. Backend
             echo "Deploying Backend..."
             cd backend
             npm install
             cd ..
             
-            # 4. Frontend Setup
-            echo "Deploying Frontend..."
+            # 3. Frontend
+            echo "Building Frontend..."
             cd frontend
             npm install
             npm run build
             cd ..
             
-            # 5. Restart Backend (PM2)
-            # Frontend is served by Nginx.
+            # 4. Publish
+            echo "Publishing to Nginx..."
+            mkdir -p $PUBLIC_DIR
+            cp -r frontend/dist/* $PUBLIC_DIR/
+            
+            # 5. Restart
             pm2 restart all
