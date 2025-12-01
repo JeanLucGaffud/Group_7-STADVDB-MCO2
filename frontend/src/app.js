@@ -449,14 +449,15 @@ window.loadRecordForUpdate = async function() {
 
 // UPDATE Operation - Execute
 window.executeUpdate = async function() {
+  const targetNode = document.getElementById('updateTargetNode').value;
   const transId = document.getElementById('updateTransId').value;
   const accountId = document.getElementById('updateAccountId').value;
   const date = document.getElementById('updateDate').value;
   const amount = document.getElementById('updateAmount').value;
   const balance = document.getElementById('updateBalance').value;
   
-  if (!transId) {
-    showErrorMessage('Please enter a Transaction ID');
+  if (!targetNode || !transId) {
+    showErrorMessage('Please select target node and enter a Transaction ID');
     return;
   }
   
@@ -474,7 +475,7 @@ window.executeUpdate = async function() {
   const query = `UPDATE trans SET ${updates.join(', ')} WHERE trans_id = ${transId}`;
   
   try {
-    const response = await executeQuery('node0', query, 'READ_COMMITTED');
+    const response = await executeQuery(targetNode, query, 'READ_COMMITTED');
     
     let fragmentNote = '';
     if (date) {

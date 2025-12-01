@@ -245,7 +245,7 @@ async function replicateWrite(sourceNode, query) {
   for (const target of targets) {
     // Pre-check: Skip replication if target is marked as failed
     if (simulatedFailures[target]) {
-      console.log(`[REPLICATION SKIP] ${sourceNode} → ${target}: Node marked as failed`);
+      console.log(`[REPLICATION SKIP] ${sourceNode} → ${target}: Node marked as failed (simulatedFailures[${target}] = true)`);
       const entry = {
         id: uuidv4(),
         source: sourceNode,
@@ -257,8 +257,12 @@ async function replicateWrite(sourceNode, query) {
       };
       replicationQueue.push(entry);
       results.push(entry);
-      continue; // Skip to next target
+      continue; // Skip to next target - DO NOT execute query
     }
+
+    // If we get here, the node is NOT marked as failed
+    console.log(`[REPLICATION ATTEMPT] ${sourceNode} → ${target}: Node is online (simulatedFailures[${target}] = ${simulatedFailures[target]})`);
+    
     const entry = {
       id: uuidv4(),
       source: sourceNode,
@@ -269,16 +273,6 @@ async function replicateWrite(sourceNode, query) {
     };
 
     try {
-      // Check if target node is marked as failed BEFORE attempting replication
-      if (simulatedFailures[target]) {
-        throw new Error(`Node ${target} is offline (simulated failure)`);
-      }
-
-      // Double-check node status to ensure it's actually online
-      if (nodeStatus[target] && nodeStatus[target].status === 'offline') {
-        throw new Error(`Node ${target} is offline (status check)`);
-      }
-
       const conn = await pools[target].getConnection();
       await conn.query(query);
       conn.release();
