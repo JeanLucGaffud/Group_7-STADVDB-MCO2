@@ -21,6 +21,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ matrix.port }}
           script: |
+            set -e  # Exit on any error
+            
             # --- CONFIGURATION ---
             REPO_DIR=~/app-repo
             BACKEND_DIR=$REPO_DIR/backend
@@ -28,9 +30,15 @@ jobs:
             
             # --- DEPLOYMENT ---
             
-            # 1. Update Code
+            # 1. Update Code (force reset to match remote)
             cd $REPO_DIR
-            git pull origin main
+            echo "Current directory: $(pwd)"
+            echo "Git status before pull:"
+            git status
+            git fetch origin main
+            git reset --hard origin/main
+            echo "Git log (latest commit):"
+            git log -1 --oneline
             
             # 2. Backend
             echo "Deploying Backend from $BACKEND_DIR..."
