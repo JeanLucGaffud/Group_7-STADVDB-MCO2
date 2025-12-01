@@ -11,7 +11,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const STATE_FILE = path.join(__dirname, 'node_state.json');
+// Use process.cwd() to ensure we write to the application root, which is more likely to be persistent/shared
+const STATE_FILE = path.join(process.cwd(), 'node_state.json');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -598,7 +599,12 @@ app.get('/api/nodes/status', async (req, res) => {
     // Force no-cache for this specific endpoint to ensure UI updates immediately
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     await checkNodeHealth();
-    res.json(nodeStatus);
+    
+    // Include simulated failure state in response for debugging
+    res.json({
+      ...nodeStatus,
+      _simulation: simulatedFailures
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
