@@ -11,7 +11,9 @@
     "test:verbose": "jest --verbose",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:recovery": "jest complete-recovery.test.js --verbose"
+    "test:recovery": "jest complete-recovery.test.js --verbose",
+    "test:concurrency": "jest concurrency.test.js --verbose",
+    "test:all": "jest --verbose --runInBand"
   },
   "keywords": [
     "distributed-database",
