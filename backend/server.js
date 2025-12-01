@@ -476,19 +476,6 @@ async function testAllConnections() {
 
 // Check node health
 async function checkNodeHealth() {
-  // RELOAD STATE: Ensure we have the latest simulation state from disk
-  // This handles cases where multiple processes are running or state was updated by another request
-  try {
-    if (fs.existsSync(STATE_FILE)) {
-      const data = fs.readFileSync(STATE_FILE, 'utf8');
-      const fileState = JSON.parse(data);
-      // Update in-memory state
-      simulatedFailures = { ...simulatedFailures, ...fileState };
-    }
-  } catch (err) {
-    console.error('[STATE] Error reloading state in health check:', err);
-  }
-
   const nodes = ['node0', 'node1', 'node2'];
   
   const checks = nodes.map(async (node) => {
