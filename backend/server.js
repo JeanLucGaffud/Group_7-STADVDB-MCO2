@@ -403,20 +403,12 @@ app.post('/api/query/execute', async (req, res) => {
   const transactionId = uuidv4();
 
   // Check if the target node is marked as failed
+  // Note: We still allow operations on the target node itself to test partial failures
+  // Replication to failed nodes will be blocked at the replication level
   if (simulatedFailures[node]) {
-    const isWriteOperation = /^\s*(INSERT|UPDATE|DELETE)/i.test(query.trim());
-    
-    if (isWriteOperation) {
-      console.log(`[BLOCKED] Write operation on failed node ${node} (simulated failure)`);
-      return res.status(503).json({ 
-        error: `Node ${node} is offline - write operations not allowed`,
-        nodeStatus: 'offline',
-        transactionId
-      });
-    } else {
-      console.log(`[WARNING] Read operation on failed node ${node} (simulated failure - allowing read)`);
-    }
+    console.log(`[WARNING] Attempting operation on failed node ${node} (simulated failure) - will proceed but replication may fail`);
   }
+
   const logEntry = {
     transactionId,
     node,
