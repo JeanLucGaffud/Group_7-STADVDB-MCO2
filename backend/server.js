@@ -243,6 +243,22 @@ async function replicateWrite(sourceNode, query) {
   // Execute replication to each target
   const results = [];
   for (const target of targets) {
+    // Pre-check: Skip replication if target is marked as failed
+    if (simulatedFailures[target]) {
+      console.log(`[REPLICATION SKIP] ${sourceNode} → ${target}: Node marked as failed`);
+      const entry = {
+        id: uuidv4(),
+        source: sourceNode,
+        target,
+        query,
+        status: 'failed',
+        error: `Node ${target} is offline (simulated failure)`,
+        time: new Date()
+      };
+      replicationQueue.push(entry);
+      results.push(entry);
+      continue; // Skip to next target
+    }
     const entry = {
       id: uuidv4(),
       source: sourceNode,
@@ -253,8 +269,14 @@ async function replicateWrite(sourceNode, query) {
     };
 
     try {
+      // Check if target node is marked as failed BEFORE attempting replication
       if (simulatedFailures[target]) {
-        throw new Error(`Node ${target} is offline (simulated)`);
+        throw new Error(`Node ${target} is offline (simulated failure)`);
+      }
+
+      // Double-check node status to ensure it's actually online
+      if (nodeStatus[target] && nodeStatus[target].status === 'offline') {
+        throw new Error(`Node ${target} is offline (status check)`);
       }
 
       const conn = await pools[target].getConnection();
@@ -376,6 +398,14 @@ app.post('/api/query/execute', async (req, res) => {
   
   if (!pools[node]) {
     return res.status(400).json({ error: 'Invalid node' });
+  }
+
+  // Check if the target node is marked as failed
+  if (simulatedFailures[node]) {
+    return res.status(503).json({ 
+      error: `Node ${node} is offline (simulated failure)`,
+      nodeStatus: 'offline'
+    });
   }
 
   const transactionId = uuidv4();
