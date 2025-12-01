@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         # LIST YOUR 3 SPECIFIC PORTS HERE:
-        port: [60411, 60412, 60413] 
+        port: [60409,60410,60411] 
 
     steps:
       - name: Deploy to Port ${{ matrix.port }}
