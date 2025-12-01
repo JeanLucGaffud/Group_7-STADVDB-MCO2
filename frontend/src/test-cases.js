@@ -71,11 +71,6 @@ export async function case2WritePlusReads(writerNode, readerA, readerB, recordId
   };
 }
 
-export async function retryReplication() {
-  // placeholder for future phases
-  showSuccessMessage('Retry triggered (to be implemented)');
-}
-
 // Case 3: concurrent writes on same record from two nodes
 export async function case3ConcurrentWrites(nodeA, nodeB, recordId, valueA, valueB, isoA, isoB) {
   const id = Number(recordId);

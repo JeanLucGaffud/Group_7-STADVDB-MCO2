@@ -194,42 +194,6 @@ export async function clearLogsAction() {
   }
 }
 
-// Replay Failed Replications
-export async function replayFailedReplications() {
-  try {
-    console.log('[REPLAY] Manually triggering replication replay...');
-    
-    const response = await fetch(`${window.location.origin.replace('3000', '5000')}/api/replication/replay`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    
-    const result = await response.json();
-    
-    console.log('[OK] Replay completed:', result);
-    
-    // Refresh UI
-    await refreshReplicationQueue();
-    await refreshTransactionLogs();
-    updateUI();
-    
-    if (result.results && Object.values(result.results).some(r => r.replayed > 0)) {
-      const totalReplayed = Object.values(result.results).reduce((sum, r) => sum + r.replayed, 0);
-      showSuccessMessage(`Successfully replayed ${totalReplayed} missed transactions`);
-    } else {
-      showSuccessMessage('No transactions needed replay');
-    }
-    
-  } catch (error) {
-    console.error('[ERROR] Error during replay:', error);
-    showErrorMessage('Failed to replay transactions: ' + error.message);
-  }
-}
-
 // State Management
 export function setState(updates) {
   state = { ...state, ...updates };

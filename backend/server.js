@@ -450,31 +450,20 @@ async function testAllConnections() {
 
 // Check node health
 async function checkNodeHealth() {
-  const nodes = ['node0', 'node1', 'node2'];
-  
-  const checks = nodes.map(async (node) => {
-    // If node is simulating failure, don't check actual connectivity
+  for (const node of ['node0', 'node1', 'node2']) {
     if (simulatedFailures[node]) {
-      nodeStatus[node] = { 
-        status: 'offline', 
-        lastCheck: new Date(), 
-        error: 'Simulated node failure',
-        failureTime: nodeStatus[node].failureTime || new Date()
-      };
-      return;
+      nodeStatus[node] = { status: 'offline', lastCheck: new Date(), error: 'Simulated failure' };
+      continue;
     }
-
     try {
-      const connection = await pools[node].getConnection();
-      await connection.query('SELECT 1');
-      connection.release();
+      const conn = await pools[node].getConnection();
+      await conn.query('SELECT 1');
+      conn.release();
       nodeStatus[node] = { status: 'online', lastCheck: new Date() };
-    } catch (error) {
-      nodeStatus[node] = { status: 'offline', lastCheck: new Date(), error: error.message };
+    } catch (err) {
+      nodeStatus[node] = { status: 'offline', lastCheck: new Date(), error: err.message };
     }
-  });
-
-  await Promise.all(checks);
+  }
 }
 
 // Routes
@@ -495,37 +484,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 2. Initialize Database
-app.post('/api/db/init', async (req, res) => {
-  try {
-    const nodes = ['node0', 'node1', 'node2'];
-    const results = {};
-
-    // Just check connection, tables should already exist
-    for (const node of nodes) {
-      try {
-        const connection = await pools[node].getConnection();
-        await connection.query('SELECT COUNT(*) as count FROM trans');
-        connection.release();
-        results[node] = 'Connected and trans table exists';
-      } catch (error) {
-        results[node] = error.message;
-      }
-    }
-
-    checkNodeHealth();
-    
-    res.json({
-      message: 'Database verification completed',
-      results,
-      nodeStatus
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// 3. Get Node Status
+// 2. Get Node Status
 app.get('/api/nodes/status', async (req, res) => {
   try {
     await checkNodeHealth();
@@ -709,7 +668,6 @@ app.get('/api/data/:node', async (req, res) => {
     return res.status(400).json({ error: 'Invalid node' });
   }
 
-  let connection;
   try {
     console.log(`[CONNECTION] Getting connection for ${node}...`);
     connection = await pools[node].getConnection();

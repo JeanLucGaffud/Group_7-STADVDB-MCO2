@@ -63,7 +63,6 @@
 
         <div class="section-card">
           <h2>Control Panel</h2>
-          <button onclick="app.initializeApp()" class="btn-full primary">Reinitialize Backend</button>
           <button onclick="app.startAutoRefresh()" class="btn-full secondary">Start Auto-Refresh</button>
           <button onclick="app.stopAutoRefresh()" class="btn-full secondary">Stop Auto-Refresh</button>
           <button onclick="app.clearLogsAction()" class="btn-full danger">Clear All Logs</button>
@@ -223,7 +222,6 @@
           <div id="replication-queue" class="logs-container">
             <div class="queue-entry">Queue is empty</div>
           </div>
-          <button onclick="retryReplication()" class="btn-full success" style="margin-top: 10px;">Retry Replication</button>
         </div>
 
         <div class="section-card">
@@ -415,7 +413,7 @@
 
   <script type="module">
     import * as app from './src/app.js';
-    import { case1ConcurrentReads, case2WritePlusReads, case3ConcurrentWrites, retryReplication } from './src/test-cases.js';
+    import { case1ConcurrentReads, case2WritePlusReads, case3ConcurrentWrites } from './src/test-cases.js';
     
     // Make app functions globally accessible
     window.app = app;
@@ -454,16 +452,6 @@
       if (data) {
         showDataModal(node, data);
       }
-    };
-
-    window.retryReplication = function() { retryReplication(); };
-    
-    window.replayFailedReplications = function() { 
-      app.replayFailedReplications(); 
-    };
-    
-    window.replayFailedReplications = function() { 
-      app.replayFailedReplications(); 
     };
 
     // Case 1 Modal controls
