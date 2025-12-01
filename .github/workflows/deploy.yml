@@ -1,0 +1,38 @@
+name: Deploy to 3 Nodes
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # LIST YOUR 3 SPECIFIC PORTS HERE:
+        port: [60409,60410,60411] 
+
+    steps:
+      - name: Deploy to Port ${{ matrix.port }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ matrix.port }}
+          script: |
+            # 1. Navigate to project
+            cd /var/www/db-frontend   # <--- MAKE SURE THIS PATH IS CORRECT ON ALL NODES
+            
+            # 2. Pull latest changes
+            git pull origin main
+            
+            # 3. Install dependencies
+            npm install
+            
+            # 4. Rebuild the frontend (Vite)
+            npm run build
+            
+            # 5. Restart Backend (PM2)
+            # (Assuming your backend is in the same repo, or skip if only frontend)
+            pm2 restart all
