@@ -257,6 +257,18 @@
           <button onclick="openCase2Modal()" class="btn-full info">Case 2: Write + Reads</button>
           <button onclick="openCase3Modal()" class="btn-full info">Case 3: Concurrent Writes</button>
         </div>
+
+        <div class="section-card">
+          <h2>Validation Tests</h2>
+          <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+            Test concurrency control and replication by case (each tests 4 isolation levels).
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <button onclick="runCase1Tests()" class="btn-full success">Case 1: Reads</button>
+            <button onclick="runCase2Tests()" class="btn-full success">Case 2: Write+Reads</button>
+            <button onclick="runCase3Tests()" class="btn-full success">Case 3: Writes</button>
+          </div>
+        </div>
       </section>
 
     </main>
@@ -401,8 +413,9 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Record ID</label>
+          <label>Record ID (Same record for both writes)</label>
           <input id="case3RecordId" type="number" placeholder="e.g. 1" />
+          <small style="color: #94a3b8;">Both nodes will write to this same record to test conflict resolution</small>
         </div>
         <div class="form-group">
           <label>Amount Value A</label>
@@ -434,11 +447,36 @@
         <div id="case3Output" class="logs-container" style="margin-top:10px;"></div>
       </div>
     </div>
+
+    <!-- Validation Results Modal -->
+    <div id="validationModal" class="modal" style="display:none;">
+      <div class="modal-content" style="max-width: 900px; background: #1e293b; color: #e2e8f0;">
+        <span class="close-button" onclick="closeValidationModal()" style="color: #e2e8f0;">&times;</span>
+        <h2 id="validationTitle" style="color: #fff;">Validation Results</h2>
+        
+        <div class="form-group">
+          <label style="color: #e2e8f0;">Test Record ID</label>
+          <input id="validationRecordId" type="number" value="637742" placeholder="e.g. 637742" style="background: #0f172a; color: #e2e8f0; border: 1px solid #334155;" />
+          <small style="color: #cbd5e1;">
+            Use a pre-1997 record. Case 3 writes from node0 AND node1 concurrently (cross-node writes on same data).
+          </small>
+        </div>
+
+        <div id="validationOutput" class="logs-container" style="max-height: 500px; overflow-y: auto; background: #0f172a; padding: 15px; border-radius: 8px;">
+          <div class="log-entry">Select a test case to begin...</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type="module">
     import * as app from './src/app.js';
     import { case1ConcurrentReads, case2WritePlusReads, case3ConcurrentWrites } from './src/test-cases.js';
+    import { 
+      validateCase1ConcurrentReads,
+      validateCase2WriteWithReads,
+      validateCase3ConcurrentWrites
+    } from './src/validation-tests.js';
     import { apiClient } from './src/api.js';
     
     // Make app functions globally accessible
@@ -735,6 +773,161 @@
         });
       }
     });
+
+    // ============================================
+    // VALIDATION TESTS HANDLERS
+    // ============================================
+
+    window.closeValidationModal = function() {
+      document.getElementById('validationModal').style.display = 'none';
+    };
+
+    function displaySimpleResults(results, caseTitle) {
+      const output = document.getElementById('validationOutput');
+      
+      let html = `<h3 style="margin-top: 0; color: #fff;">${caseTitle}</h3>`;
+      html += `
+        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+          <thead>
+            <tr style="background: #334155;">
+              <th style="padding: 10px; border: 1px solid #475569; text-align: left; color: #e2e8f0;">Isolation Level</th>
+              <th style="padding: 10px; border: 1px solid #475569; text-align: center; color: #e2e8f0;">Consistency</th>
+              <th style="padding: 10px; border: 1px solid #475569; text-align: center; color: #e2e8f0;">Time (s)</th>
+              <th style="padding: 10px; border: 1px solid #475569; text-align: center; color: #e2e8f0;">Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      results.forEach(result => {
+        const verdictColor = result.verdict === 'PASS' ? '#10b981' : 
+                           result.verdict === 'WARNING' ? '#f59e0b' : '#ef4444';
+        
+        html += `
+          <tr style="background: #1e293b;">
+            <td style="padding: 10px; border: 1px solid #475569; color: #e2e8f0;">${result.isolationLevel}</td>
+            <td style="padding: 10px; border: 1px solid #475569; text-align: center; font-weight: bold; font-size: 16px; color: #e2e8f0;">
+              ${result.consistencyPercentage || 0}%
+            </td>
+            <td style="padding: 10px; border: 1px solid #475569; text-align: center; font-size: 16px; color: #e2e8f0;">
+              ${result.executionTimeSeconds || '0.000'}s
+            </td>
+            <td style="padding: 10px; border: 1px solid #475569; text-align: center; color: ${verdictColor}; font-weight: bold;">
+              ${result.verdict}
+            </td>
+          </tr>
+        `;
+      });
+      
+      html += `</tbody></table>`;
+      
+      // Summary - handle undefined values safely
+      const avgConsistency = (results.reduce((sum, r) => sum + (r.consistencyPercentage || 0), 0) / results.length).toFixed(1);
+      const avgTime = (results.reduce((sum, r) => sum + (parseFloat(r.executionTimeSeconds) || 0), 0) / results.length).toFixed(3);
+      const passCount = results.filter(r => r.verdict === 'PASS').length;
+      
+      html += `
+        <div style="padding: 15px; background: #334155; border-radius: 5px; margin-top: 10px; color: #e2e8f0;">
+          <strong style="color: #fff;">Summary:</strong>
+          <ul style="margin: 10px 0; padding-left: 20px;">
+            <li><strong>Average Consistency:</strong> ${avgConsistency}%</li>
+            <li><strong>Average Execution Time:</strong> ${avgTime}s</li>
+            <li><strong>Tests Passed:</strong> ${passCount}/${results.length}</li>
+          </ul>
+        </div>
+      `;
+      
+      output.innerHTML = html;
+    }
+
+    window.runCase1Tests = async function() {
+      const modal = document.getElementById('validationModal');
+      const title = document.getElementById('validationTitle');
+      const output = document.getElementById('validationOutput');
+      const recordId = Number(document.getElementById('validationRecordId').value);
+      
+      modal.style.display = 'block';
+      title.textContent = 'Case 1: Concurrent Reads - Running...';
+      output.innerHTML = '<div class="log-entry info">Testing 4 isolation levels... Please wait.</div>';
+      
+      try {
+        const isolationLevels = ['READ_UNCOMMITTED', 'READ_COMMITTED', 'REPEATABLE_READ', 'SERIALIZABLE'];
+        const results = [];
+        
+        for (const level of isolationLevels) {
+          const result = await validateCase1ConcurrentReads(recordId, level);
+          results.push(result);
+        }
+        
+        title.textContent = 'Case 1: Concurrent Reads - Results';
+        displaySimpleResults(results, 'Case 1: Concurrent Reads');
+      } catch (error) {
+        output.innerHTML = `<div class="log-entry error">Error: ${error.message}</div>`;
+      }
+    };
+
+    window.runCase2Tests = async function() {
+      const modal = document.getElementById('validationModal');
+      const title = document.getElementById('validationTitle');
+      const output = document.getElementById('validationOutput');
+      const recordId = Number(document.getElementById('validationRecordId').value);
+      
+      modal.style.display = 'block';
+      title.textContent = 'Case 2: Write + Concurrent Reads - Running...';
+      output.innerHTML = '<div class="log-entry info">Testing 4 isolation levels... Please wait.</div>';
+      
+      try {
+        const isolationLevels = ['READ_UNCOMMITTED', 'READ_COMMITTED', 'REPEATABLE_READ', 'SERIALIZABLE'];
+        const results = [];
+        
+        for (const level of isolationLevels) {
+          const newValue = Date.now();
+          const result = await validateCase2WriteWithReads(recordId, 'node1', newValue, level);
+          results.push(result);
+        }
+        
+        title.textContent = 'Case 2: Write + Concurrent Reads - Results';
+        displaySimpleResults(results, 'Case 2: Write + Concurrent Reads');
+      } catch (error) {
+        output.innerHTML = `<div class="log-entry error">Error: ${error.message}</div>`;
+      }
+    };
+
+    window.runCase3Tests = async function() {
+      const modal = document.getElementById('validationModal');
+      const title = document.getElementById('validationTitle');
+      const output = document.getElementById('validationOutput');
+      const recordId = Number(document.getElementById('validationRecordId').value);
+      
+      modal.style.display = 'block';
+      title.textContent = 'Case 3: Concurrent Writes - Running...';
+      output.innerHTML = '<div class="log-entry info">Testing 4 isolation levels with concurrent writes to SAME record... Please wait.</div>';
+      
+      try {
+        const isolationLevels = ['READ_UNCOMMITTED', 'READ_COMMITTED', 'REPEATABLE_READ', 'SERIALIZABLE'];
+        const results = [];
+        
+        for (const level of isolationLevels) {
+          const valueA = 10000 + Math.floor(Math.random() * 1000); // e.g., 10543
+          const valueB = 20000 + Math.floor(Math.random() * 1000); // e.g., 20789
+          
+          // Write from node0 (master) AND node1 (fragment) to same record
+          // Tests concurrent cross-node writes per spec requirement
+          const result = await validateCase3ConcurrentWrites(recordId, 'node0', valueA, 'node1', valueB, level);
+          results.push(result);
+          
+          // Wait between tests to let system stabilize
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+        
+        title.textContent = 'Case 3: Concurrent Writes - Results';
+        displaySimpleResults(results, 'Case 3: Concurrent Writes');
+      } catch (error) {
+        output.innerHTML = `<div class="log-entry error">Error: ${error.message}</div>`;
+      }
+    };
+
+
   </script>
 </body>
 </html>

@@ -79,7 +79,7 @@ export async function case2WritePlusReads(writerNode, readerA, readerB, recordId
   const sawDifferentValues = uniqueValues.length > 1;
 
   if (sawDifferentValues) {
-    console.log(`[CASE 2] ⚠️ DIRTY READS DETECTED: Read values varied: [${uniqueValues.join(', ')}]`);
+    console.log(`[CASE 2] DIRTY READS DETECTED: Read values varied: [${uniqueValues.join(', ')}]`);
     console.log(`[CASE 2] This is ${iso === 'READ_UNCOMMITTED' ? 'EXPECTED' : 'UNEXPECTED'} for ${iso}`);
   } else {
     console.log(`[CASE 2] All reads consistent: ${values.length > 0 ? values[0] : 'N/A'}`);

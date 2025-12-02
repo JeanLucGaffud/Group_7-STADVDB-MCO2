@@ -400,8 +400,9 @@ function abortTransaction(txnId) {
 /**
  * Simple replication: forward write query to appropriate nodes
  * No locking needed - just execute the query
+ * For READ_UNCOMMITTED: Fire-and-forget (no retry logic)
  */
-async function replicateWrite(sourceNode, query) {
+async function replicateWrite(sourceNode, query, isolationLevel = 'READ_COMMITTED') {
   const upper = query.trim().toUpperCase();
   if (!upper.startsWith('UPDATE') && !upper.startsWith('INSERT') && !upper.startsWith('DELETE')) {
     return [];
@@ -439,9 +440,30 @@ async function replicateWrite(sourceNode, query) {
     targets.push('node0');
   }
 
-  console.log(`[REPLICATION] ${sourceNode} → [${targets.join(', ')}] trans_id=${transId}`);
+  console.log(`[REPLICATION] ${sourceNode} → [${targets.join(', ')}] trans_id=${transId} isolation=${isolationLevel}`);
 
-  // Execute replication to each target
+  // For READ_UNCOMMITTED: Fire-and-forget approach (no blocking, no retries)
+  if (isolationLevel === 'READ_UNCOMMITTED') {
+    console.log(`[REPLICATION] READ_UNCOMMITTED mode - fire-and-forget (no wait)`);
+    // Execute replications asynchronously without waiting
+    for (const target of targets) {
+      if (simulatedFailures[target]) {
+        console.log(`[REPLICATION SKIP] ${sourceNode} → ${target}: Node offline`);
+        continue;
+      }
+      // Fire and forget - don't await the result
+      pools[target].getConnection()
+        .then(conn => {
+          return conn.query(query).finally(() => conn.release());
+        })
+        .then(() => console.log(`[REPLICATION SUCCESS] ${sourceNode} → ${target} (async)`))
+        .catch(e => console.log(`[REPLICATION FAILED] ${sourceNode} → ${target}: ${e.message} (ignored)`));
+    }
+    // Return immediately without waiting
+    return [{ source: sourceNode, target: targets[0], status: 'async', note: 'READ_UNCOMMITTED fire-and-forget' }];
+  }
+
+  // Execute replication to each target (for other isolation levels)
   const results = [];
   for (const target of targets) {
     // Pre-check: Skip replication if target is marked as failed
@@ -752,7 +774,7 @@ app.post('/api/query/execute', async (req, res) => {
     logEntry.writeSet = Array.from(txn.writeSet);
     
     // Replicate write to other nodes
-    const replicationResults = await replicateWrite(node, query);
+    const replicationResults = await replicateWrite(node, query, effectiveIsolation);
     logEntry.replication = replicationResults.map(r => ({ target: r.target, status: r.status }));
 
     // ISOLATION LEVEL SPECIFIC LOCK RELEASE

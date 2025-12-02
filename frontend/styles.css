@@ -771,3 +771,44 @@ body {
 .affected-rows.error {
   color: #dc3545;
 }
+
+/* Validation Tests Styling */
+.log-entry.info {
+  background-color: #d1ecf1;
+  border-left: 4px solid #17a2b8;
+  color: #0c5460;
+}
+
+.log-entry.warning {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  color: #856404;
+}
+
+details summary {
+  cursor: pointer;
+  user-select: none;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+details summary:hover {
+  background: #e9ecef;
+}
+
+details[open] summary {
+  margin-bottom: 10px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+small {
+  font-size: 0.85em;
+  color: #6c757d;
+}
