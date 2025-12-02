@@ -471,7 +471,11 @@
       const details = `RowsA: ${res.results?.rowsA} | RowsB: ${res.results?.rowsB} | Same: ${res.results?.same ? 'YES' : 'NO'}`;
       const dataAJson = JSON.stringify(res.results?.dataA || [], null, 2);
       const dataBJson = JSON.stringify(res.results?.dataB || [], null, 2);
+      const timeClass = parseFloat(res.executionTime) > 1 ? 'warning' : 'success';
+      const performanceNote = isolation === 'SERIALIZABLE' ? ' (Expected: Slowest - sequential reads)' : 
+                             isolation === 'READ_UNCOMMITTED' ? ' (Expected: Fastest - no locks)' : '';
       out.innerHTML = `
+        <div class="log-entry ${timeClass}"><strong>⏱️ Execution Time: ${res.executionTime}s</strong>${performanceNote}</div>
         <div class="log-entry success">Isolation: ${isolation.replace('_',' ')}</div>
         <div class="log-entry success">Query: ${res.query}</div>
         <div class="log-entry success">NodeA: ${res.results?.nodeA} | NodeB: ${res.results?.nodeB}</div>
@@ -521,8 +525,12 @@
         const concurrencyMsg = sawDifferent 
           ? `✓ Readers observed different values during concurrent execution (${uniqueVals.join(', ')})`
           : '⚠ All readers observed the same value (may indicate sequential execution or strict locking)';
+        const timeClass = parseFloat(res.executionTime) > 1 ? 'warning' : 'success';
+        const performanceNote = isolation === 'SERIALIZABLE' ? ' (Expected: Slowest - sequential execution)' : 
+                               isolation === 'READ_UNCOMMITTED' ? ' (Expected: Fastest - no locks)' : '';
         
         out.innerHTML = `
+          <div class="log-entry ${timeClass}"><strong>⏱️ Execution Time: ${res.executionTime}s</strong>${performanceNote}</div>
           <div class="log-entry success">Isolation: ${isolation.replace('_',' ')}</div>
           <div class="log-entry">Write Status: ${writeStatus}</div>
           <div class="log-entry">Record ID: ${recordId} Updated To: ${newValue}</div>
@@ -569,7 +577,12 @@
         const finalA = JSON.stringify(res.finalReads[nodeA] || [], null, 2);
         const finalB = JSON.stringify(res.finalReads[nodeB] || [], null, 2);
         const lockFailures = res.writes.filter(w => w.status === 'failed' && w.code === 423);
+        const timeClass = parseFloat(res.executionTime) > 1 ? 'warning' : 'success';
+        const isSerialized = isoA === 'SERIALIZABLE' || isoB === 'SERIALIZABLE';
+        const performanceNote = isSerialized ? ' (Expected: Slowest - sequential writes + replication)' : 
+                               (isoA === 'READ_UNCOMMITTED' || isoB === 'READ_UNCOMMITTED') ? ' (Expected: Fastest - concurrent writes)' : '';
         out.innerHTML = `
+          <div class="log-entry ${timeClass}"><strong>⏱️ Execution Time: ${res.executionTime}s</strong>${performanceNote}</div>
           <div class="log-entry success">Record ID: ${res.recordId}</div>
           <div class="log-entry">Isolation A: ${isoA.replace('_',' ')} | Isolation B: ${isoB.replace('_',' ')}</div>
           <div class="log-entry">Write Ordering (endTime ascending): ${orderLine}</div>

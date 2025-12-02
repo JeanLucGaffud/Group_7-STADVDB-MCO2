@@ -1,0 +1,6684 @@
+[
+  {
+    "transactionId": "d7f2782f-b1a7-4bdf-adc7-8d511b90e916",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 1117247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:45:38.326Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:45:38.423Z",
+    "results": [
+      {
+        "trans_id": 1117247,
+        "account_id": 3818,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 5555,
+        "balance": 600
+      }
+    ],
+    "readSet": [
+      1117247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "6382f771-84bb-4cb0-bb69-a4eb7003808f",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 1117247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:45:38.329Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:45:38.426Z",
+    "results": [
+      {
+        "trans_id": 1117247,
+        "account_id": 3818,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 5555,
+        "balance": 600
+      }
+    ],
+    "readSet": [
+      1117247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "479ad052-864a-4b9d-a81d-a29800167f8f",
+    "node": "node0",
+    "query": "\n      SELECT \n        COUNT(*) as transaction_count,\n        SUM(amount) as total_amount\n      FROM trans\n      WHERE newdate < '1997-01-01'\n    ",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:54:58.483Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:54:58.507Z",
+    "results": [
+      {
+        "transaction_count": 10000,
+        "total_amount": 84024519.89999965
+      }
+    ],
+    "readSet": [],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1abaa0b7-4195-4168-a026-6f04ae5b2f9b",
+    "node": "node0",
+    "query": "\n      SELECT \n        COUNT(*) as transaction_count,\n        SUM(amount) as total_amount\n      FROM trans\n      WHERE newdate >= '1997-01-01'\n    ",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:54:58.516Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:54:58.536Z",
+    "results": [
+      {
+        "transaction_count": 10000,
+        "total_amount": 60886854
+      }
+    ],
+    "readSet": [],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "b58b0188-d190-4c83-81bb-5b7b72faaca4",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:57:08.332Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:08.347Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "40e456b1-e2d2-4c68-aa2f-c3a1276e3ea3",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:57:08.335Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:08.348Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "87bb1477-aed3-4ab7-9cb1-8a81ca4e41ea",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:57:45.209Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:45.223Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "0ff9e2aa-f5b9-47d6-a291-e0dc00c7ebf2",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:57:45.211Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:45.225Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "54a16c2d-68c7-4241-8c23-a5e0faef7b4e",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:57:47.295Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:47.306Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c941ae28-75ae-49c1-8aa6-d2e4dc64903b",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:57:47.298Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:47.308Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "da2de07f-a66a-4324-b02b-050adf4eafac",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:49.434Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:49.448Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "58957429-ede3-452b-a205-b97fbf673718",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:49.436Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:49.450Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "6ed031bf-190e-46df-804d-13d6bf7ee3c4",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:53.471Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:53.480Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "3c682ad6-c3a7-4ea5-95c4-e1f1f07c5167",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:53.473Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:53.481Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "224b47bd-55dd-4d15-a531-14ab16b9d4f3",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:53.913Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:53.975Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "19694649-7c14-4105-a906-a21b34a20646",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:53.915Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:53.960Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "32d1effc-df7d-494e-8a99-f8414931cac7",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:54.418Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:54.481Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a43e9ef6-3efa-4d65-b7c0-9e650a2c4210",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:54.419Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:54.464Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "4acbf0b6-dfe0-47f4-aa3c-678a05e03aec",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:55.025Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:55.105Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "75678b90-2282-4e33-85bb-6f9660d6f7c0",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:55.026Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:55.073Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d8135697-89c0-4a8e-a096-405656145910",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:55.633Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:55.725Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "9c894860-ad41-45ae-b3aa-35b4df24fc1b",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:55.634Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:55.679Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "5d981f90-33e7-4ead-bf34-b8058370e292",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:56.307Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:56.382Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e6666f46-e2b8-466c-a5ad-afb2a72a5f25",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:56.308Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:56.354Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ccaaae22-0d34-4190-ad1a-1a03c6e6a672",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:56.865Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:56.941Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "710b9ea0-f4c7-47d5-b484-a56e468d4f62",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:56.867Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:56.914Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "647e513c-2b34-4bad-bedd-689d494aea65",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:57.335Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:57.409Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d1157ff3-c6c2-422c-b866-f105bd8132dd",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:57.336Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:57.382Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "b2c1f717-791c-452f-8068-f81da85e4f53",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:57.674Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:57.756Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "544ffde7-b4a6-4bc4-bc3f-ab77f57b815f",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:57.676Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:57.722Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "5b2ceea8-70e9-4518-859a-3d96d34846b2",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:57.875Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:57.966Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "7c259407-e55b-4e7d-908d-37de350844cc",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:57:57.877Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:57.922Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "736c1e22-96be-4337-b5fc-c474511e8525",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:57:59.612Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:59.711Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "4c8b7e59-7adc-4916-a986-830a8c4cc8e7",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:57:59.614Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:57:59.664Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "4e2de005-2324-4f3e-bd02-05b2218df4b3",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:00.060Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:00.069Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "8120d272-8038-4a33-b6fb-5909c8e6f24c",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:00.061Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:00.070Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "4825e863-c002-462f-a4fd-bf41e39b4e1d",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:00.486Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:00.496Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "33f4b3e9-f20d-4a96-849c-575162ba12e4",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:00.487Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:00.500Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "4a53f47b-b4c0-41b6-bfd9-5472cb783f91",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:00.820Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:00.830Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a671d52f-ac2c-491e-93de-f7a1b2641100",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:00.822Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:00.833Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ab692b2b-abd8-45bf-a7c0-dd1286373aeb",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:01.095Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:01.110Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "088ccec0-4118-456f-aa3a-4a93e83cdd4e",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:01.097Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:01.112Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "db6c7555-f8cf-4dea-bbd3-d441c36e4c44",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:01.394Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:01.403Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e894d47c-39b8-4979-a413-d9dbfc937f93",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:01.396Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:01.405Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "cfee7475-7cf6-48a7-95d8-c444136b988e",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:01.711Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:01.733Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "aa84649f-c015-4a5e-994e-2fb236d11beb",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:01.713Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:01.735Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "60c30c5c-3813-495b-8e27-13a73ebb6b5d",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:02.020Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:02.030Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "53705285-549f-45fb-bf78-1ff1afd31f3b",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:02.021Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:02.032Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "7f397a57-b394-48a1-98ef-c612b454d344",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:02.323Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:02.333Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "68da05bb-9eec-432b-bad0-aeb2f290cbd6",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:02.325Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:02.335Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "df22099a-2c97-411b-8705-912909ae6d42",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:02.569Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:02.578Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a83ed23b-ec55-4830-b6e8-8f431b442dc4",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:02.570Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:02.582Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e066fa57-7adf-440c-9421-884d970569e7",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:04.222Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:04.234Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "fb14e396-6264-4d01-a5f4-99dda796321c",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:04.223Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:04.242Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "f19529d9-3a5a-4462-8b9d-1189161ac68e",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:04.617Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:04.626Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "37ef1ad6-8d5e-4d8f-923e-c6d96d164788",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:04.619Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:04.628Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "fb2ca1a4-74c8-40c0-8132-f56a0c852562",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:04.935Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:04.946Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "279cb8e9-376d-4db1-9221-52961ee51927",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:04.937Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:04.949Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "dde22ddc-62e7-44ca-b068-62aa7a78b4ee",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:05.278Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:05.289Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "834c17ce-e8cb-4a62-8ce9-01870d19302d",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:05.281Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:05.291Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1a9ad573-01cc-455f-804f-b530e38017be",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:05.602Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:05.615Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d530b9d0-d5b4-46d2-a486-74923b1e4a76",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:05.604Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:05.618Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "472fca0d-6bc3-4a1b-874a-8afb4b1e4d47",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:05.784Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:05.796Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "29f79c1d-c6c8-41b5-8dde-e943a02f472a",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:05.787Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:05.799Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "865999f0-b564-4020-a617-b33015e5f2d0",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.054Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.069Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "dbbaf799-bfa2-436b-beee-8dbaf1850777",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.056Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.066Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c7790770-818e-4f5e-84d5-98deceeb7819",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.331Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.341Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "f85f93e9-09a4-4a6b-b12b-d79cf5589ea1",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.333Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.346Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a338f384-707f-45ed-b922-20b3ffc1f9f4",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.563Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.573Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e9440349-24c7-44df-a035-6234d735ae16",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.565Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.576Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "78bf47c3-b268-416d-9395-639bd19c72bb",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.715Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.725Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ab68683c-4d6a-4f1c-9969-6748b7652513",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.716Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.728Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a99f6256-9792-451e-8f04-6e2967aa3ded",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.889Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.899Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "7a6f7c93-11ff-4105-ae2f-7a0a3b5741f5",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:06.891Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:06.902Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "acd780dc-1057-47a1-a5be-b754d1774049",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:07.046Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:07.056Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a0a44a8f-1442-4956-89f5-9f7cf2694ad0",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:07.048Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:07.061Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "5436cf71-a86d-4d69-b0ec-db76a807bb65",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:08.560Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:08.571Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a76b293a-5031-4fae-a772-48ec2174bc0e",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:08.563Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:08.574Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "f77f1fa9-1968-4ef3-9918-f03b746002ea",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:08.927Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:08.936Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1746ef35-bbca-4a9b-aa3d-b08de400ba18",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:08.929Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:08.939Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1b1d382e-effb-4354-a060-207b03046b74",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:09.277Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:09.288Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "8bc67378-6d5f-466e-8a52-2bec4a048869",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:09.280Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:09.290Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "518e576d-52f3-4404-8af7-f257826ee317",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:09.504Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:09.514Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "3d77d4f6-12f1-4e07-87ed-e62309ff0e7d",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:09.507Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:09.516Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c60e1bf1-68ce-4131-a46f-64d13c8a0668",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:09.847Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:09.857Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "2e95530c-9e96-4681-a8dc-cdb4b0a72f5c",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:09.849Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:09.861Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c2ceb10f-6ccf-4688-8e79-db7e7b9f1afd",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.036Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.048Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "02317021-be1c-4637-93d1-12a9a3998a3d",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.040Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.051Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "8f4bb9eb-3405-49dd-adfe-d3800fda0ee2",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.374Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.386Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e4e92648-2e9a-48be-9446-3d0443221036",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.377Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.389Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "6f019912-b221-487c-97a4-7193f4dfbff5",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.693Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.704Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "b5e2c0d5-b56b-4e4a-99d9-5b084a721615",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.695Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.708Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e8ebb340-bb4c-44b9-b7c9-7a5f0856c498",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.876Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.887Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1db185bd-a088-4894-90c1-47d7f6e23876",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:10.879Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:10.890Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "880162ac-098a-40d7-a4f7-9cbe0bba510c",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:11.233Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:11.246Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "88305b95-6fd5-4453-8ed4-a7288518e4e1",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:11.236Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:11.248Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ef21c2e3-6ccd-4170-bd07-b71b0eb9f8d9",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:11.412Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:11.423Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "6f631ca6-b06c-4ed5-9dd8-3ca70f0ff781",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:11.414Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:11.425Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "f04d0e37-d2ac-4c3f-9e0b-0b7c18c55b55",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 1 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:35.239Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:35.334Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "b2d40cd1-59de-4180-b1a5-482d9ff6f124",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:35.244Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:35.718Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "aa166fe0-50e7-4d69-a66b-05954ba70416",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:35.247Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:35.301Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 700,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "b3cd1dbb-c98c-43ed-a9cd-80cbbdc83db3",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:35.251Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:35.554Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "2f3b4ea8-db17-4ff7-9164-f865005e9100",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:35.738Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:35.825Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e2270482-9103-485f-88fa-0672ecfdb12f",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 2 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:41.486Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:41.598Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "f0e44c41-3ba7-4054-b428-a37b7721258f",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:41.491Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:42.513Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "03191a3b-3d59-482a-9341-ed2f629f8259",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:41.497Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:42.463Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d7fed812-7742-4b68-9c22-0a35807841f9",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:41.501Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:42.465Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "29f523a1-cba4-4586-a51e-077091dc57a4",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:42.522Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:42.616Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ea1a6cc1-bad8-4544-af36-d9204ca54af6",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 1 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:48.199Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:48.222Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "5f179f32-29ea-41c8-9e38-9da8a4525b8a",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:48.211Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:48.231Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "733cf977-4ee1-4311-b1c0-7633f966f8f7",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:48.215Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:48.235Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "69cc156f-344e-4a9a-b259-1653150a4fba",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:58:48.219Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:48.239Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c902aad7-ec88-4438-93fb-ed87841b4319",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:48.264Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:48.275Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a3761037-c948-4af7-8e34-e8dc6078d900",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 2 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:52.145Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:52.170Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "cbf71099-590e-435a-94cf-3a8dfc082b73",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:52.148Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:52.224Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "977cc2ab-6a69-45bb-b280-cf412a91a718",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:52.154Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:52.228Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "7e99efef-de0e-4ab2-9418-7e316b29ef8b",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:52.157Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:52.232Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "03b9b9cf-f50c-43ca-b53e-d5caa1bad74c",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:52.245Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:52.267Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "51a38478-520d-4488-8311-5e3028ca9ae6",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 3 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:55.771Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:55.800Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "133c1601-e64b-4876-97d6-03a74a512ee6",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:55.777Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:55.853Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "2361759b-13dd-45c8-a596-9d9269c3f0dc",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:55.784Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:55.859Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "b31124f3-3c60-4e4e-93e6-9abff0321dab",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:55.788Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:55.865Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "53c89113-44d3-4dfe-a8d7-bd2cb57a7911",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:55.881Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:55.898Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "4b5009ae-e1d4-41c4-8ebb-159ef0d3723e",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 3 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:58.207Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:58.229Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "1437d386-cb28-4e68-9afe-802a4d54ea9b",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:58.211Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:58.292Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e749c117-fea1-47cb-8dd0-2b17afb88825",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:58.214Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:58.295Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "55728f93-313f-4f16-a15d-3aa81366bb3c",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T11:58:58.218Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:58.298Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "bf6f210a-90f1-4ca5-bee6-a6a6abcb533f",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:58:58.307Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:58:58.316Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "014c14cb-46f0-4190-805e-f104f3aa3242",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 4 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:59:01.296Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:01.324Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "b9ce3882-8fdd-4704-b111-b898d1957473",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:59:01.301Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:01.386Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 4,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a4da71a3-2bad-4ba8-b210-a0c8ff9ce7d0",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:59:01.308Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:01.390Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 4,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "fd14eb61-abb0-4aaa-9c51-eb8c91127b15",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T11:59:01.313Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:01.393Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 4,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "3716c0e3-330b-43e0-bd80-b79c8276da23",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:01.407Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:01.421Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 4,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "6bfdb401-bc61-4048-997d-c68e04471e52",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 1 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:59:24.746Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:24.766Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "99f51641-7947-4f16-89d9-89ea59d5c624",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 2 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:59:24.751Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:24.767Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "367a21c0-6450-4d3d-9fe6-7d0b245c6e0a",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:24.893Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:24.911Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 2,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "5ff88662-c2ac-4a34-8927-31b7dca7a80e",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:24.898Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:24.914Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "88b8b38c-793a-4dcb-81b4-ad645e6e9704",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 3 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:59:30.443Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:30.466Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "a73112cd-8b1d-48ad-850f-dead690c7fc3",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 4 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:30.448Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:30.469Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "4ce75686-4890-4904-9359-99a5ce462d55",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:30.524Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:30.552Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 4,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "69d9bb10-7666-4af2-95bc-5c6359d3f8c3",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:30.531Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:30.561Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "9989a468-ee7a-42da-99a0-642efe50d918",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 5 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:59:37.207Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:37.228Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "436911ac-715b-4f55-bd70-10e4b006cc31",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 6 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:37.212Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:37.235Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "20381bae-16ca-437b-b770-c87c94b79e36",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:37.289Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:37.309Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 6,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "fec0311c-689d-40b2-bb69-9b3b0fff4cf0",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:37.294Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:37.314Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 5,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "0a56f5fe-e0ff-45f5-b5c1-664438a37c72",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 12 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:59:52.779Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:52.796Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "954bcbbd-e4c2-4cc2-a0f7-be7eafc28866",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 13 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T11:59:52.784Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:52.798Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "05ee0989-d57c-4d1e-9779-93955bdec6f8",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:52.839Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:52.852Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 13,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "eb0b9647-1c2e-4acd-9c79-b8e6ff327297",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T11:59:52.842Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T11:59:52.858Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 12,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "f40a23dd-327d-4b61-ac54-059199d3f8c7",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:01.873Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:01.948Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "c6c3e85e-f38c-487e-8dcc-cd127603d98e",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:01.878Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:02.239Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "840fd6fa-f61f-49e2-bfc1-3677b619bd82",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:02.562Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:02.650Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "f7a4dee7-faeb-4c7b-80b0-f6397bc61e67",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:02.565Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:02.614Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "8085974d-e3fa-496c-a579-cbb43c7cec56",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 222 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:00:10.398Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:10.421Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "a5f43ddf-5fd5-4457-a1d1-6fa94a20c358",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 222 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:00:10.404Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:10.481Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "89c17e1f-1c57-41cd-94aa-f0f51dadc60e",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:10.522Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:10.544Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 222,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "7ed1895b-62f8-4b24-94fa-7c2059731e78",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:10.528Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:10.548Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 222,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "3b3fba4e-44a3-45fd-a5ab-1fc4b809f95e",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 333 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:00:18.236Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:18.257Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "6e8123bb-a634-4285-9e51-a2a1d6c519dd",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 123132 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:00:18.240Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:18.312Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "fd38d023-003c-458f-8da8-5a7f4e4108a4",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:18.361Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:18.379Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 123132,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "fb456a0f-a5aa-4f4f-a4d3-cf506530b153",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:18.368Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:18.386Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 123132,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "0e996901-833a-4ac9-b493-ad6913f5f50f",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:00:30.258Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:30.281Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "3b2aaf38-26d8-47b2-a0c0-c91d6f397a6e",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 222 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:00:30.266Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:30.333Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "3ac71306-34f9-4ca5-87fc-c28af0fd4e49",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:30.380Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:30.405Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 222,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "59a13f20-b580-4963-9771-7b71658bf771",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:30.387Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:30.411Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 222,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "19329fa5-d1c5-41da-b462-6f46c949c7ee",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 333 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:00:37.897Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:37.971Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "0a951f12-de1b-43ae-9dac-53bf38e6e5c6",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 333 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:00:37.903Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:38.249Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "1825605f-2f18-42a1-a5ad-281a920036c2",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:38.507Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:38.592Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 333,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "02236818-1554-4dc8-93bb-40432f929ba0",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:38.511Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:38.558Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 333,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e2596896-f75d-4334-a63c-d45207b23f26",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 123 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:00:44.925Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:45.007Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "4446a067-13cf-4b69-9e1d-632dae887e43",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:00:44.931Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:45.283Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "1578ea28-50bc-4edb-876d-e936d8186bd9",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:45.605Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:45.694Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "4383bd2a-1eb6-4d61-94c6-c9d12327e591",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:00:45.614Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:00:45.672Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "da0e2e7b-9580-445f-a308-ca595df75ab6",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 144 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:01.981Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:01.998Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "9310e0ca-d297-4017-9143-6d4edce86d27",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 1 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:01.986Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:02.061Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "499f12b9-9e2c-4a94-8142-9854347fe5e7",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:02.101Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:02.119Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ab869b40-b43e-4e68-915a-87703a5e5135",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:02.107Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:02.122Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "8e4bb1d1-21d8-4082-9e63-92e7421fdaa3",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 222 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:10.791Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:10.811Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "065fa779-5840-41a9-9365-6c21c4c6df51",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 233 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:10.795Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:10.810Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "97aab8cf-a7d5-45b3-9f53-37c01bce3e97",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:10.859Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:10.873Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 233,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e890f155-de1f-4510-93e2-5df2b3e2053d",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:10.864Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:10.880Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 222,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "dba8e5df-599b-442c-96bd-b3224f6b82c7",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 555 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:22.798Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:22.870Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "a2585d6d-61a0-406b-85ae-8357baa1e43a",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 555 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:22.803Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:22.853Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "29b719a2-8667-4d6a-9c81-143c99488b90",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:23.103Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:23.187Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 555,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "71ad90d8-d755-4d30-94f6-83443056abc3",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:23.106Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:23.154Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 555,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c10939bf-154a-4eee-ba1a-7ed74d0c5d3e",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 666 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:27.259Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:27.338Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "9c340dc7-5e41-4297-8baf-b75f610b23ac",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 123 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:27.266Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:27.318Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "0525b29b-9b0b-4a31-bec5-ca38afaeb040",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:27.543Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:27.620Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 123,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d5591594-190b-4eb7-96ba-03c471ff843a",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:27.547Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:27.595Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 666,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "bf2a8bb0-22ea-48f6-b1b9-a349ad8db0a3",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 333 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:34.583Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:34.601Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "6ef86f43-3dde-4040-97be-b98c4a56377a",
+    "node": "node1",
+    "query": "UPDATE trans SET amount = 444 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:01:34.589Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:34.602Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node0",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "c25253f7-7587-4da8-9f9d-4d529c9d4517",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:34.647Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:34.662Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 444,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "5c1691fe-3211-45c2-9c72-eae6f6c22ffd",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:01:34.652Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:01:34.667Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 333,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1f1eea2a-706e-4d60-b543-6412727069f7",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 1 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:02:21.787Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:21.819Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "f9e35c30-313a-46dd-9f65-1c47e44fa3d0",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:02:21.792Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:21.815Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 444,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1643a728-f5ef-44b3-a664-0c6c5366ad38",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:02:21.798Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:21.820Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 333,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "92f2fc9e-e1cb-4bc5-98eb-9f8cd7767e6a",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:02:21.804Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:21.824Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "67dc79ec-7263-4617-9ac0-e7ce10634608",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:21.863Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:21.876Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "53ae646d-6285-4572-83ba-ecfcad55d9c4",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 122 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:36.505Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:36.537Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "1761628b-99e5-41b6-a444-fdc7fc372988",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:36.512Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:36.602Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 122,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "5033609c-7f4b-4dcf-8193-3f0151dcd6f7",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:36.518Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:36.607Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 122,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "817936f4-9ea0-4e52-9101-2900d5c255dc",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:36.523Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:36.614Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 122,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "425b49bf-fb71-48aa-a6b1-61ec0902ee75",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:36.629Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:36.640Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 122,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ded78719-966b-44ea-8ab8-40f28d724b3a",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:45.480Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:45.557Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 122,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "2bc4d900-3202-4b66-a11d-349f17a34087",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 1333 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:45.486Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:45.659Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "9510ae92-6004-44cc-8f94-72ad4cfd0542",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:45.494Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:45.567Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 122,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "3feb0b6f-eb13-4634-8a0c-1242e0d72a43",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:45.500Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:45.563Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 122,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "7ad1c749-c279-4659-a5c6-24fdf5f292cb",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:45.862Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:45.909Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1333,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "b2b3ece8-66ad-4538-8957-1355a37baef0",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:02:59.267Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:59.298Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "acd229fc-ac94-4016-9744-461439d27646",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:02:59.273Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:59.359Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a07744a7-5408-42ed-9a8d-07a9481bb1bf",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:02:59.281Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:59.364Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "bc523a78-f69a-4ab8-823c-100800656709",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:02:59.285Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:59.368Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "de120bcc-056b-4c65-bda6-85b2382963ae",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:02:59.383Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:02:59.397Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "435b5d18-a88b-4a09-ac9f-bc117b24ce29",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:08.896Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:08.926Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "f5f90973-128a-43be-b8f1-49e331490373",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:08.902Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:08.986Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "8b16bab8-e766-43e0-8c26-471353fb845a",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:08.909Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:08.990Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "8676e015-15a8-40b4-91a4-933a8b5d8172",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:08.915Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:08.996Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "cf9381a5-c02e-4f5d-81b0-a6dce92b1b53",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:09.010Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:09.023Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "68becbe5-ef94-4d2a-b185-9f443eb88044",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:03:11.610Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:11.644Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "f3dfd1a0-ee58-4c7e-bfff-2b5244f2abe3",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:03:11.615Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:11.640Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "af60c58e-b423-4dfe-b31c-26b54c107a29",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:03:11.620Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:11.645Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "0b504c17-8a69-4382-90cc-ad2fbf12ddd1",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_UNCOMMITTED",
+    "startTime": "2025-12-02T12:03:11.627Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:11.650Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "89ce9c7a-4937-4921-9505-9f6be785d0c1",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:11.694Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:11.705Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ba425256-abbf-44e1-9f1b-b1fe6843a02d",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 111 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:18.202Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:18.234Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "6f4dac1f-0f31-43c3-83f8-a834d56efaf0",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:18.208Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:18.307Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "622a39ba-e7a4-4327-8a0d-70bdf9296b66",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:18.215Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:18.296Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "77acd473-3ab0-4099-bffd-230a68bb411d",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:18.222Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:18.301Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "26ed2534-bc4e-437b-8cef-85cc6a6a51f7",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:18.323Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:18.335Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 111,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "80ec8737-cd8a-4f45-9676-0bd03f01be2f",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 134 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:24.015Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:24.093Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "4b0d101b-7b77-42c0-8054-d12f5d66853d",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:24.023Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:24.374Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "61cb27f6-e974-4c64-99da-f5a690de9a5b",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:24.029Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:24.370Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "3492b043-c077-448a-89b3-1e5757fb8af3",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:24.034Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:24.379Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "f4669af3-ab4f-4061-a49e-2bedcc9e8b82",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:24.389Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:24.443Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "e6a0e0cd-b468-46df-b376-3d0eedd23a54",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 134 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:25.607Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:25.685Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 0  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 0
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "d666b271-00e9-4b89-8164-9842f18e696d",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:25.613Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:25.968Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "3172db82-8ac8-40c7-b35a-ad8d1ec6daef",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:25.618Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:25.974Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "31154ca8-e5c6-47be-b6fd-9ec146a7543c",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:25.626Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:25.978Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "54498fe2-518e-4482-86ef-b77797ae9d45",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:25.994Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:26.043Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 134,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "5c309c81-79c6-4aae-ab9c-94c73a3c7dcf",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 123 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:27.831Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:27.917Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "b8b35493-cdeb-4a7e-a686-a0206f7ad8e6",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:27.836Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:28.198Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 123,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "08ecfaf1-529e-45d7-bd4d-e7f2ec6dac37",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:27.842Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:28.203Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 123,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d80b5cbb-7d56-4764-b463-585beca83133",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:27.851Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:28.207Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 123,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "17e5cc28-6ddd-48da-8c95-04e481632a04",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:28.218Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:28.267Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 123,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "435effed-32b5-4efa-90bd-dcf8a5699df2",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 1 WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:03:36.792Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:36.824Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "ce0d40ca-9d78-4c09-9289-35627c4750b8",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:03:36.799Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:36.877Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "35013aeb-95ee-4ffb-b7a5-b86de4bd6619",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:03:36.806Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:36.883Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ae85dcce-8979-49e0-b78d-b0cdc191981a",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "REPEATABLE_READ",
+    "startTime": "2025-12-02T12:03:36.811Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:36.890Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d53ebc78-5e5b-4412-ae85-bb125a6776ee",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:36.904Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:36.916Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 1,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "6c25927e-e4ca-4426-93a9-7bf5a551d264",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 3 WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:47.469Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:47.503Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "6ae28905-d2f4-413e-8af4-566d7a8bed82",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:47.477Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:47.565Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c51c165f-53fc-450f-b60c-ca700173cb03",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:47.483Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:47.559Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "a1803030-1975-4485-b22b-457695f58561",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "SERIALIZABLE",
+    "startTime": "2025-12-02T12:03:47.489Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:47.571Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ec512279-9ef8-4050-8e7d-53601868b8e2",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:03:47.587Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:03:47.599Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 3,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "1b1c9ecd-3325-416c-9154-3175230c5a80",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 5 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:15.239Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:15.270Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "3ba21f77-4e28-4819-95c1-70bbbacbb475",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:15.245Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:15.329Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 5,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "ed1e8aa3-9898-4d00-9c4e-081d90a299dc",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:15.251Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:15.334Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 5,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "0d8fc199-13ca-4fe3-996d-748283f5769d",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:15.256Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:15.339Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 5,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "77775b29-1299-49d0-ab55-b3d8ce0b8e8c",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:15.351Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:15.363Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 5,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "403f41a5-b0d4-47c3-addf-23da74d6eec1",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 6 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:17.374Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:17.405Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "f2247845-9208-431d-9f15-67b15e8060e0",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:17.379Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:17.455Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 6,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "c18aa15f-8034-4771-8759-cf41e1d2022f",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:17.385Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:17.460Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 6,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "af9bd79d-67f7-47c4-ad8f-fed4b555052e",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:17.393Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:17.465Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 6,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "d1d0618a-22fe-436d-96a3-462e3c234096",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:17.481Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:17.493Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 6,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "69a4a75c-b50e-4d55-a0d3-a773a8a9b627",
+    "node": "node0",
+    "query": "UPDATE trans SET amount = 7 WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:19.509Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:19.543Z",
+    "results": {
+      "fieldCount": 0,
+      "affectedRows": 1,
+      "insertId": 0,
+      "info": "Rows matched: 1  Changed: 1  Warnings: 0",
+      "serverStatus": 2,
+      "warningStatus": 0,
+      "changedRows": 1
+    },
+    "readSet": [],
+    "writeSet": [
+      695247
+    ],
+    "replication": [
+      {
+        "target": "node1",
+        "status": "replicated"
+      }
+    ]
+  },
+  {
+    "transactionId": "5313eac8-e8d5-4c10-a268-3c758e4eab11",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:19.518Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:19.601Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 7,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "60bb0fcc-9127-434d-8cb2-0727f9bd098d",
+    "node": "node1",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:19.523Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:19.606Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 7,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "6f46108d-2dfb-429a-9bd1-2e4e2342617e",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:19.530Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:19.613Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 7,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  },
+  {
+    "transactionId": "b85413b8-5ba5-4d26-a436-19d3872805c5",
+    "node": "node0",
+    "query": "SELECT * FROM trans WHERE trans_id = 695247",
+    "isolationLevel": "READ_COMMITTED",
+    "startTime": "2025-12-02T12:04:19.627Z",
+    "status": "committed",
+    "walLogged": true,
+    "endTime": "2025-12-02T12:04:19.641Z",
+    "results": [
+      {
+        "trans_id": 695247,
+        "account_id": 2378,
+        "newdate": "1992-12-31T16:00:00.000Z",
+        "amount": 7,
+        "balance": 700
+      }
+    ],
+    "readSet": [
+      695247
+    ],
+    "writeSet": [],
+    "replication": []
+  }
+]
