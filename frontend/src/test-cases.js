@@ -4,7 +4,11 @@ import { apiClient } from './api.js';
 // Minimal Test Cases module (we will add Case2/Case3 later)
 export async function case1ConcurrentReads(nodeA, nodeB, recordId, isolationLevel) {
   try {
+    const startTime = performance.now();
     const { ra, rb, query } = await runConcurrentReads(nodeA, nodeB, recordId, isolationLevel);
+    const endTime = performance.now();
+    const executionTime = ((endTime - startTime) / 1000).toFixed(3); // Convert to seconds
+    
     const okA = ra.status === 'fulfilled' ? 'OK' : 'FAIL';
     const okB = rb.status === 'fulfilled' ? 'OK' : 'FAIL';
     const dataA = ra.status === 'fulfilled' ? (ra.value.data.results || []) : [];
@@ -16,6 +20,7 @@ export async function case1ConcurrentReads(nodeA, nodeB, recordId, isolationLeve
       : false;
     return {
       nodeA, nodeB, recordId, query,
+      executionTime,
       results: {
         nodeA: okA,
         nodeB: okB,
@@ -46,6 +51,7 @@ export async function case2WritePlusReads(writerNode, readerA, readerB, recordId
   
   console.log(`[CASE 2] Starting concurrent write + reads with ${iso}...`);
   
+  const startTime = performance.now();
   const [writeResult, wRead, aRead, bRead] = await Promise.all([
     apiClient.post('/query/execute', { node: writerNode, query: updateQuery, isolationLevel: iso }),
     apiClient.post('/query/execute', { node: writerNode, query: selectQuery, isolationLevel: iso }),
@@ -53,7 +59,10 @@ export async function case2WritePlusReads(writerNode, readerA, readerB, recordId
     apiClient.post('/query/execute', { node: readerB, query: selectQuery, isolationLevel: iso })
   ]);
   
-  console.log(`[CASE 2] All operations completed`);
+  const endTime = performance.now();
+  const executionTime = ((endTime - startTime) / 1000).toFixed(3); // Convert to seconds
+  
+  console.log(`[CASE 2] All operations completed in ${executionTime}s`);
   
   // Add a post-write verification read to show the final committed state
   console.log(`[CASE 2] Performing post-write verification read...`);
@@ -100,6 +109,7 @@ export async function case2WritePlusReads(writerNode, readerA, readerB, recordId
 
   return {
     isolation: iso,
+    executionTime,
     write: {
       status: write.status,
       error: write.error,
@@ -139,11 +149,14 @@ export async function case3ConcurrentWrites(nodeA, nodeB, recordId, valueA, valu
   const select = `SELECT * FROM trans WHERE trans_id = ${id}`;
 
   // Fire both writes concurrently
+  const startTime = performance.now();
   const writePromises = [
     apiClient.post('/query/execute', { node: nodeA, query: updateA, isolationLevel: isolationA }),
     apiClient.post('/query/execute', { node: nodeB, query: updateB, isolationLevel: isolationB })
   ];
   const [wA, wB] = await Promise.allSettled(writePromises);
+  const endTime = performance.now();
+  const executionTime = ((endTime - startTime) / 1000).toFixed(3); // Convert to seconds
 
   const unwrapWrite = (res, node, valSet) => {
     if (res.status === 'fulfilled') {
@@ -199,6 +212,7 @@ export async function case3ConcurrentWrites(nodeA, nodeB, recordId, valueA, valu
 
   return {
     recordId: id,
+    executionTime,
     isolation: { nodeA: isolationA, nodeB: isolationB },
     writes: [writeA, writeB],
     order,
