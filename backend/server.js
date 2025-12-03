@@ -711,7 +711,7 @@ async function twoPhaseCommit(sourceNode, query, targets) {
 /**
  * Replication using Two-Phase Commit
  */
-async function replicateWrite(sourceNode, query, isolationLevel = 'READ_COMMITTED') {
+async function replicateWrite(sourceNode, query) {
   const upper = query.trim().toUpperCase();
   if (!upper.startsWith('UPDATE') && !upper.startsWith('INSERT') && !upper.startsWith('DELETE')) {
     return [];
@@ -765,30 +765,6 @@ async function replicateWrite(sourceNode, query, isolationLevel = 'READ_COMMITTE
   const twoPC_result = await twoPhaseCommit(sourceNode, query, targets);
   
   // Log results to replication queue
-  console.log(`[REPLICATION] ${sourceNode} → [${targets.join(', ')}] trans_id=${transId} isolation=${isolationLevel}`);
-
-  // For READ_UNCOMMITTED: Fire-and-forget approach (no blocking, no retries)
-  if (isolationLevel === 'READ_UNCOMMITTED') {
-    console.log(`[REPLICATION] READ_UNCOMMITTED mode - fire-and-forget (no wait)`);
-    // Execute replications asynchronously without waiting
-    for (const target of targets) {
-      if (simulatedFailures[target]) {
-        console.log(`[REPLICATION SKIP] ${sourceNode} → ${target}: Node offline`);
-        continue;
-      }
-      // Fire and forget - don't await the result
-      pools[target].getConnection()
-        .then(conn => {
-          return conn.query(query).finally(() => conn.release());
-        })
-        .then(() => console.log(`[REPLICATION SUCCESS] ${sourceNode} → ${target} (async)`))
-        .catch(e => console.log(`[REPLICATION FAILED] ${sourceNode} → ${target}: ${e.message} (ignored)`));
-    }
-    // Return immediately without waiting
-    return [{ source: sourceNode, target: targets[0], status: 'async', note: 'READ_UNCOMMITTED fire-and-forget' }];
-  }
-
-  // Execute replication to each target (for other isolation levels)
   const results = [];
   for (const result of twoPC_result.results) {
     const entry = {
@@ -1304,7 +1280,7 @@ app.post('/api/query/execute', async (req, res) => {
     logEntry.writeSet = Array.from(txn.writeSet);
     
     // Replicate write to other nodes
-    const replicationResults = await replicateWrite(node, query, effectiveIsolation);
+    const replicationResults = await replicateWrite(node, query);
     logEntry.replication = replicationResults.map(r => ({ target: r.target, status: r.status }));
 
     // ISOLATION LEVEL SPECIFIC LOCK RELEASE
